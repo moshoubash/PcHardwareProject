@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PcHardware.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("admin"))
+    {
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Admin
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/Admin/Dashboard">Dashboard</a></li>
+                <li>
+                    <form id="logoutForm" class="dropdown-item form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    }
+    else if (User.IsInRole("seller"))
+    {
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Seller
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/Seller/Dashboard">Dashboard</a></li>
+                <li>
+                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    }
+    else if (User.IsInRole("client"))
+    {
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Client
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/User/Cart">My Cart</a></li>
+                <li><a class="dropdown-item" href="/User/Wishlist">Wishlist</a></li>
+                <li>
+                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        }
+    else
+    {
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Warehouse Manager
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/WarehouseManager/Dashboard">My Cart</a></li>
+                <li>
+                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>

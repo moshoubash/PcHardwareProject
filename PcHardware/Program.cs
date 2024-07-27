@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PcHardware.Services;
+using Microsoft.AspNetCore.Identity;
+using PcHardware.Models;
 
 namespace PcHardware
 {
@@ -14,6 +16,8 @@ namespace PcHardware
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<MyDbContext>(op => op.UseSqlServer(connectionString));
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<MyDbContext>();
 
             builder.Services.AddMvc(op => op.EnableEndpointRouting = false);
 
