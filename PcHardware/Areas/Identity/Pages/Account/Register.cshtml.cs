@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using PcHardware.Models;
+using PcHardware.Services;
 
 namespace PcHardware.Areas.Identity.Pages.Account
 {
@@ -30,13 +31,15 @@ namespace PcHardware.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly MyDbContext dbContext;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            MyDbContext dbContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace PcHardware.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.dbContext = dbContext;
         }
 
         /// <summary>
@@ -146,9 +150,20 @@ namespace PcHardware.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
                     
+                    // assign client role by default to the user
                     await _userManager.AddToRoleAsync(user, "client");
                     
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    // create cart for each user
+                    var cart = new Cart
+                    {
+                        UserId = userId,
+                    };
+
+                    dbContext.Carts.Add(cart);
+                    await dbContext.SaveChangesAsync();
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
