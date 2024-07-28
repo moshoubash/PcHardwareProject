@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<form enctype="multipart/form-data" method="post">
+    @*Product Name*@
+    <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input name="Name" class="form-control" type="text" placeholder="Product Name"/>
+    </div>
+
+    @*Product Description*@
+    <div class="form-group">
+        <label class="form-label">Product Description</label>
+        <input name="Description" class="form-control" type="text" placeholder="Product Description" />
+    </div>
+
+    @*Product Quantity*@
+    <div class="form-group">
+        <label class="form-label">Stock Quantity</label>
+        <input name="StockQuantity" class="form-control" type="number" value="1"/>
+    </div>
+
+    @*Product Price*@
+    <div class="form-group">
+        <label class="form-label">Product Price</label>
+        <input name="Price" class="form-control" type="number" value="1" />
+    </div>
+
+    @*Product Image*@
+    <div class="form-group">
+        <label class="form-label">Product Image</label>
+        <input name="ImageUrl" class="form-control" type="file" />
+    </div>
+
+    <div class="form-group row">
+        @*Product Category*@
+        <div class="col">
+            <label class="form-label">Product Category</label>
+            <select class="form-control" name="CategoryId">
+                @{
+                    foreach (var c in ViewBag.Categories)
+                    {
+                        <option value="@c.Value">@c.Text</option>
+                    }
+                }
+            </select>
+        </div>
+
+        @*Product Manufacturer*@
+        <div class="col">
+            <label class="form-label">Product Manufacturer</label>
+            <select class="form-control" name="ManufacturerId">
+                @{
+                    foreach (var m in ViewBag.Manufactureres)
+                    {
+                        <option value="@m.Value">@m.Text</option>    
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Create</button>
+    </div>
+</form>

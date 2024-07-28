@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PcHardware.Models;
 using PcHardware.Repositories;
+using PcHardware.Services;
 
 namespace PcHardware.Controllers
 {
     [Authorize(Roles = "seller")]
     public class ProductController : Controller
     {
+        private readonly MyDbContext dbContext;
         private readonly IProductRepository productRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
         
-        public ProductController(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment, MyDbContext dbContext)
         {
             this.productRepository = productRepository;
             this.webHostEnvironment = webHostEnvironment;
+            this.dbContext = dbContext;
         }
 
         // Manage products
@@ -23,13 +27,22 @@ namespace PcHardware.Controllers
             return View(productRepository.GetProducts());
         }
 
-        // Create products
+        // Details of product
+        public ActionResult Details(int Id)
+        {
+            return View(productRepository.GetProductById(Id));
+        }
 
+        // Create products
+        [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.Categories = new SelectList(dbContext.Categories, "Id", "Name");
+            ViewBag.Manufactureres = new SelectList(dbContext.Manufactureres, "Id", "Name");
             return View();
         }
 
+        [HttpPost]
         public ActionResult Create(Product product, IFormFile ImageUrl)
         {
             if (ImageUrl != null) {
@@ -48,14 +61,17 @@ namespace PcHardware.Controllers
             productRepository.CreateProduct(product);
             return RedirectToAction("Manage");
         }
-        
+
         // Edit products
-
-        public ActionResult Edit()
+        [HttpGet]
+        public ActionResult Edit(int Id)
         {
-            return View();
+            ViewBag.Categories = new SelectList(dbContext.Categories, "Id", "Name");
+            ViewBag.Manufactureres = new SelectList(dbContext.Manufactureres, "Id", "Name");
+            return View(productRepository.GetProductById(Id));
         }
-
+        
+        [HttpPost]
         public ActionResult Edit(Product product, IFormFile ImageUrl)
         {
             if (ImageUrl != null)
@@ -77,11 +93,11 @@ namespace PcHardware.Controllers
         }
 
         // Delete products
-
         public ActionResult Delete(int Id)
         {
             productRepository.DeleteProduct(Id);
             return RedirectToAction("Manage");
         }
+
     }
 }

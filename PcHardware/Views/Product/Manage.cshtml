@@ -1,0 +1,47 @@
+﻿@using PcHardware.Models;
+@inject PcHardware.Services.MyDbContext dbContext;
+@model List<Product>
+@{
+    ViewData["Title"] = "Manage Products";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>Manage</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>IMAGE</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>STOCK QUANTITY</th>
+            <th>CATEGORY</th>
+            <th>MANUFACTURER</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>
+                        <img src="/ProductsImages/@p.ImageUrl" width="50"/>
+                    </td>
+                    <td>@p.Name</td>
+                    <td>$@p.Price</td>
+                    <td>@p.StockQuantity</td>
+                    <td>@dbContext.Categories.Where(c => c.Id == p.CategoryId).FirstOrDefault().Name</td>
+                    <td>@dbContext.Manufactureres.Where(m => m.Id == p.ManufacturerId).FirstOrDefault().Name</td>
+                    <td>
+                        <a class="btn btn-primary" href="/Product/Edit/@p.Id"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="/Product/Delete/@p.Id"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-success" href="/Product/Details/@p.Id"><i class="fa-solid fa-circle-info"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PcHardware.Services;
 using Microsoft.AspNetCore.Identity;
 using PcHardware.Models;
+using PcHardware.Repositories;
 
 namespace PcHardware
 {
@@ -20,6 +21,8 @@ namespace PcHardware
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<MyDbContext>();
 
             builder.Services.AddMvc(op => op.EnableEndpointRouting = false);
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             var app = builder.Build();
 
