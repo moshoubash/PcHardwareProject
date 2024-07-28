@@ -7,7 +7,6 @@ using PcHardware.Services;
 
 namespace PcHardware.Controllers
 {
-    [Authorize(Roles = "seller")]
     public class ProductController : Controller
     {
         private readonly MyDbContext dbContext;
@@ -20,8 +19,9 @@ namespace PcHardware.Controllers
             this.webHostEnvironment = webHostEnvironment;
             this.dbContext = dbContext;
         }
-
+        
         // Manage products
+        [Authorize(Roles = "seller")]
         public ActionResult Manage()
         {
             return View(productRepository.GetProducts());
@@ -32,8 +32,9 @@ namespace PcHardware.Controllers
         {
             return View(productRepository.GetProductById(Id));
         }
-
+        
         // Create products
+        [Authorize(Roles = "seller")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -41,7 +42,8 @@ namespace PcHardware.Controllers
             ViewBag.Manufactureres = new SelectList(dbContext.Manufactureres, "Id", "Name");
             return View();
         }
-
+        
+        [Authorize(Roles = "seller")]
         [HttpPost]
         public ActionResult Create(Product product, IFormFile ImageUrl)
         {
@@ -61,8 +63,9 @@ namespace PcHardware.Controllers
             productRepository.CreateProduct(product);
             return RedirectToAction("Manage");
         }
-
+        
         // Edit products
+        [Authorize(Roles = "seller")]
         [HttpGet]
         public ActionResult Edit(int Id)
         {
@@ -71,6 +74,7 @@ namespace PcHardware.Controllers
             return View(productRepository.GetProductById(Id));
         }
         
+        [Authorize(Roles = "seller")]
         [HttpPost]
         public ActionResult Edit(Product product, IFormFile ImageUrl)
         {
@@ -91,8 +95,9 @@ namespace PcHardware.Controllers
             productRepository.EditProduct(product);
             return RedirectToAction("Manage");
         }
-
+        
         // Delete products
+        [Authorize(Roles = "seller")]
         public ActionResult Delete(int Id)
         {
             productRepository.DeleteProduct(Id);

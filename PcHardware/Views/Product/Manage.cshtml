@@ -8,7 +8,7 @@
 
 <h1>Manage</h1>
 
-<table class="table table-striped">
+<table class="table table-striped table-head-bg-primary">
     <thead>
         <tr>
             <th>ID</th>
@@ -32,7 +32,16 @@
                     </td>
                     <td>@p.Name</td>
                     <td>$@p.Price</td>
-                    <td>@p.StockQuantity</td>
+                    @{
+                        if (p.StockQuantity == 0)
+                        {
+                            <td><span class="badge bg-danger border-0">Out of stock!</span></td>
+                        }
+                        else
+                        {
+                            <td>@p.StockQuantity</td>
+                        }
+                    }
                     <td>@dbContext.Categories.Where(c => c.Id == p.CategoryId).FirstOrDefault().Name</td>
                     <td>@dbContext.Manufactureres.Where(m => m.Id == p.ManufacturerId).FirstOrDefault().Name</td>
                     <td>
