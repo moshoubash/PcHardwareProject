@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using PcHardware.Models;
 using PcHardware.Repositories.Cart;
 using PcHardware.Services;
@@ -33,8 +34,20 @@ namespace PcHardware.Controllers
                 ProductId = ProductId
             };
 
-            cartRepository.AddCartItem(cartItem);
-            return Redirect($"/Product/Details/{ProductId}");
+            bool isInCart = cartRepository.IsInCart(cartItem);
+
+            // add quantity
+            if (isInCart) {
+                var targetCartItem = dbContext.CartItems.Where(ci=>ci.ProductId==ProductId && ci.CartId == cartItem.CartId).FirstOrDefault();
+                targetCartItem.Quantity= targetCartItem.Quantity + Quantity;
+                dbContext.SaveChanges();
+                return Redirect($"/Product/Details/{ProductId}");
+            }
+            else {
+                cartRepository.AddCartItem(cartItem);
+                return Redirect($"/Product/Details/{ProductId}");
+            }
+            
         }
 
         [HttpPost]

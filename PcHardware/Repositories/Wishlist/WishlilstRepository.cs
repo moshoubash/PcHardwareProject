@@ -33,5 +33,11 @@ namespace PcHardware.Repositories.Wishlist
         {
             return dbContext.Wishlists.Where(w=>w.UserId==UserId).ToList();
         }
+
+        bool IWishlistRepository.isInWishlist(string UserId, int ProductId)
+        {
+            var targetItem = dbContext.Wishlists.Where(w=>w.UserId==UserId && w.ProductId == ProductId).FirstOrDefault();
+            return (targetItem == null) ? false : true;
+        }
     }
 }

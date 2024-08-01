@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Cart items";
     Layout = "/Pages/Shared/_Layout.cshtml";
+    decimal total = 0;
 }
 
 <h1>Cart</h1>
@@ -13,19 +14,24 @@
             <th>Item image</th>
             <th>Item Name</th>
             <th>Item quantity</th>
+            <th>PPU</th>
+            <th>Total price</th>
             <th>Item Actions</th>
         </tr>
     </thead>
     <tbody>
         @{
-            foreach(var ci in Model)
+            foreach (var ci in Model)
             {
+                var p = dbContext.Products.Where(p => p.Id == ci.ProductId).FirstOrDefault();
                 <tr>
                     <td>
                         <img src="/ProductsImages/@dbContext.Products.Where(p=>p.Id==ci.ProductId).FirstOrDefault().ImageUrl" width="50"/>
                     </td>
                     <td><a href="/Product/Details/@ci.ProductId">@ci.Product.Name</a></td>
                     <td>@ci.Quantity</td>
+                    <td>@p.Price.ToString("C")</td>
+                    <td>$@(p.Price * @ci.Quantity)</td>
                     <td>
                         <form method="post" action="/Cart/RemoveCartItem">
                             <input type="hidden" value="@ci.ProductId" name="ProductId" />
@@ -33,8 +39,11 @@
                             <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                         </form>
                     </td>
-                </tr>   
+                </tr>
+                total += (ci.Quantity * p.Price);
             }
         }
     </tbody>
 </table>
+<hr />
+<p><b>Total : $@total</b></p>

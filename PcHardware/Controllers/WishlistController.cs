@@ -29,14 +29,22 @@ namespace PcHardware.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            var wishlistItem = new Wishlist {
-                UserId = user.Id,
-                ProductId = ProductId
-            };
+            bool isInWishlist = wishlistRepository.isInWishlist(user.Id, ProductId);
+            if (isInWishlist == false) {
 
-            wishlistRepository.AddItem(wishlistItem);
+                var wishlistItem = new Wishlist
+                {
+                    UserId = user.Id,
+                    ProductId = ProductId
+                };
 
-            return Redirect($"/Product/Details/{ProductId}");
+                wishlistRepository.AddItem(wishlistItem);
+
+                return Redirect($"/Product/Details/{ProductId}");
+            }
+            else { 
+                return Redirect($"/Product/Details/{ProductId}");
+            }
         }
 
         [HttpPost]
