@@ -82,5 +82,6 @@ namespace PcHardware.Services
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<Country> Countries { get; set; }
     }
 }
