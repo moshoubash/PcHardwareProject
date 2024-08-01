@@ -1,0 +1,40 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.CartItem>
+@{
+    ViewData["Title"] = "Cart items";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Cart</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Item image</th>
+            <th>Item Name</th>
+            <th>Item quantity</th>
+            <th>Item Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach(var ci in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="/ProductsImages/@dbContext.Products.Where(p=>p.Id==ci.ProductId).FirstOrDefault().ImageUrl" width="50"/>
+                    </td>
+                    <td><a href="/Product/Details/@ci.ProductId">@ci.Product.Name</a></td>
+                    <td>@ci.Quantity</td>
+                    <td>
+                        <form method="post" action="/Cart/RemoveCartItem">
+                            <input type="hidden" value="@ci.ProductId" name="ProductId" />
+                            <input type="hidden" value="@ci.CartId" name="CartId" />
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>   
+            }
+        }
+    </tbody>
+</table>

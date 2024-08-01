@@ -1,10 +1,37 @@
 ﻿@page
+@inject Services.MyDbContext dbContext;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        @{
+            foreach (var p in dbContext.Products)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top p-3" src="/ProductsImages/@p.ImageUrl" alt="@p.Name" />
+                        <div class="card-body">
+                            <a href="/Product/Details/@p.Id" class="text-decoration-none">
+                                <h5 class="card-title">@p.Name</h5>
+                            </a>
+                            <p class="card-text text-danger font-weight-bold">$@p.Price.00</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="d-flex justify-content-between">
+                                <a href="/Cart/AddCartItem?productId=@p.Id" class="btn btn-primary">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                                <a href="/Product/Details/@p.Id" class="btn btn-dark">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>

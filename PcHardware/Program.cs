@@ -3,6 +3,9 @@ using PcHardware.Services;
 using Microsoft.AspNetCore.Identity;
 using PcHardware.Models;
 using PcHardware.Repositories;
+using PcHardware.Repositories.Category;
+using PcHardware.Repositories.Cart;
+using PcHardware.Repositories.Wishlist;
 
 namespace PcHardware
 {
@@ -23,6 +26,9 @@ namespace PcHardware
             builder.Services.AddMvc(op => op.EnableEndpointRouting = false);
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IWishlistRepository, WishlilstRepository>();
 
             var app = builder.Build();
 

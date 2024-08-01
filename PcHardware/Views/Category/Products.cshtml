@@ -1,0 +1,34 @@
+﻿@using PcHardware.ViewModels;
+@model CategoryViewModel
+@{
+    ViewData["Title"] = "Category products";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.CategoryName Products</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>IMAGE</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>QUANTITY</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach(var p in Model.Products)
+            {
+                <tr>
+                    <td>
+                        <img src="/ProductsImages/@p.ImageUrl" width="50"/>
+                    </td>
+                    <td>@p.Id</td>
+                    <td><a href="/Product/Details/@p.Id">@p.Name</a></td>
+                    <td>@p.StockQuantity</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

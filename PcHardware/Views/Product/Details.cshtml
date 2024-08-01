@@ -1,9 +1,47 @@
-﻿@using PcHardware.Models;
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@using PcHardware.Models;
 @model Product
+
 @{
     ViewData["Title"] = "Product Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Product Details</h1>
+<div class="container p-xxl-4 mt-xxl-5">
+    <div class="row">
+        @* Product Image *@
+        <div class="col-md-6 border-right">
+            <img src="/ProductsImages/@Model.ImageUrl" class="img-fluid" alt="@Model.Name" />
+        </div>
 
+        @* Product Details *@
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+            <a href="/Category/Products/@Model.CategoryId" class="badge bg-dark">
+                @(dbContext.Categories.FirstOrDefault(c => c.Id == Model.CategoryId)?.Name ?? "Unknown Category")
+            </a>
+            <p>@Model.Description</p>
+
+            <h3 class="text-success">@Model.Price.ToString("C")</h3>
+            <p class="text-muted">Availability: @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")</p>
+
+            <div class="d-flex justify-content-between align-items-end">
+                @* Add to Cart Form *@
+                <form method="post" action="/Cart/AddCartItem">
+                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                    <div class="form-group mb-3">
+                        <label for="Quantity" class="form-label">Quantity</label>
+                        <input type="number" id="Quantity" name="Quantity" class="form-control" min="1" max="@Model.StockQuantity" placeholder="Quantity" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary" @(Model.StockQuantity > 0 ? "" : "disabled")><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+                </form>
+
+                @* Add to Wishlist Form *@
+                <form method="post" action="/Wishlist/AddItem">
+                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist"><i class="fa-solid fa-star"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

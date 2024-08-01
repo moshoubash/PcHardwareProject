@@ -1,0 +1,30 @@
+﻿@model List<PcHardware.Models.Wishlist>
+@inject PcHardware.Services.MyDbContext dbContext;
+@{
+    ViewData["Title"] = "Wishlist items";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@{
+    foreach (var w in Model)
+    {
+        PcHardware.Models.Product p = dbContext.Products.Where(p=>p.Id==w.ProductId).FirstOrDefault();
+        if (p != null)
+        {
+            <div class="card">
+                <div class="card-header">@p.Name</div>
+                <div class="card-body h3"><b>$@p.Price</b></div>
+                <div class="card-footer">
+                    @* remove to Wishlist Form *@
+
+                    <form method="post" action="/Wishlist/RemoveItem">
+                        <input type="hidden" name="ProductId" value="@p.Id" />
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+}
