@@ -6,6 +6,7 @@ using PcHardware.Repositories;
 using PcHardware.Repositories.Category;
 using PcHardware.Repositories.Cart;
 using PcHardware.Repositories.Wishlist;
+using PcHardware.Repositories.Order;
 
 namespace PcHardware
 {
@@ -29,6 +30,7 @@ namespace PcHardware
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IWishlistRepository, WishlilstRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
             var app = builder.Build();
 

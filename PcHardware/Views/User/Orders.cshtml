@@ -1,0 +1,90 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Order>
+@{
+    ViewData["Title"] = "User orders";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<br />
+<table class="table table-striped table-bordered">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>Id</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var o in Model)
+            {
+                var address = dbContext.Addresses.Where(a=>a.Id==o.AddressId).FirstOrDefault();
+                var orderItems = dbContext.OrderItems.Where(oi => oi.OrderId == o.Id).ToList();
+
+                <tr>
+                    <td>@o.Id</td>
+                    <td><span class="badge bg-dark">@o.Status</span></td>
+                    <td>@o.OrderDate</td>
+                    <td><b>$@o.TotalAmount</b></td>
+                    <td>
+                        @*Address Details*@
+                        <div class="row">
+                        <h4>Address Details</h4>
+                            <dl>
+                                <dt>Country : </dt>
+                                <dd>@dbContext.Countries.Where(c => c.Id == int.Parse(address.Country)).FirstOrDefault().Name</dd>
+                                <br />
+                                
+                                <dt>City : </dt>
+                                <dd>@address.City</dd>
+                                <br />
+                                
+                                <dt>Street : </dt>
+                                <dd>@address.Street</dd>
+                                <br />
+                                
+                                <dt>PostalCode : </dt>
+                                <dd>@address.PostalCode</dd>
+                                <br />
+                                
+                                <dt>State : </dt>
+                                <dd>@address.State</dd>
+                            </dl>
+                        </div>
+                        @*Order Details*@
+                        <div class="row">
+                            <h4>Order Details</h4>
+                            <table class="table table-bordered">
+                                <thead class="bg-dark text-white">
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var oi in orderItems)
+                                        {
+                                            var product = dbContext.Products.Where(p => p.Id == oi.ProductId).FirstOrDefault();
+                                            <tr>
+                                                <td><img src="/ProductsImages/@product.ImageUrl" width="100" /></td>
+                                                <td>@product.Name</td>
+                                                <td>@oi.Quantity</td>
+                                                <td>$@oi.UnitPrice</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

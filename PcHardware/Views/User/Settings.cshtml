@@ -1,0 +1,45 @@
+﻿@model PcHardware.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Profile Settings";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input id="firstName" type="text" name="FirstName" class="form-control" value="@Model.FirstName" />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input id="lastName" type="text" name="LastName" class="form-control" value="@Model.LastName" />
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group col-md-12">
+        <label for="email" class="form-label">Email</label>
+        <input id="email" type="email" name="Email" class="form-control" value="@Model.Email" />
+    </div>
+    <br />
+
+    <div class="form-group col-md-12">
+        <label for="phoneNumber" class="form-label">Phone Number</label>
+        <input id="phoneNumber" type="text" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+    </div>
+    <br />
+
+    <div class="form-group col-md-12">
+        <label for="dateOfBirth" class="form-label">Date Of Birth</label>
+        <input id="dateOfBirth" type="date" name="DateOfBirth" class="form-control" value="@Model.DateOfBirth" />
+    </div>
+    <br />
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update Settings</button>
+    </div>
+</form>
