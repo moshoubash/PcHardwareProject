@@ -60,6 +60,7 @@ namespace PcHardware.Services
 
             // ORDER
             builder.Entity<Order>().HasOne(o => o.User).WithMany(u => u.Orders).HasForeignKey(o => o.UserId);
+            builder.Entity<Order>().HasOne(o => o.Address).WithOne(a => a.Order).HasForeignKey<Order>(o => o.AddressId);
 
             // ORDER ITEM
             builder.Entity<OrderItem>().HasOne(oi => oi.Order).WithMany(o => o.OrderItems).HasForeignKey(oi => oi.OrderId);

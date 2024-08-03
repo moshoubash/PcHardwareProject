@@ -15,5 +15,7 @@ namespace PcHardware.Models
 
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
+
+        public Order? Order { get; set; }
     }
 }
