@@ -7,6 +7,9 @@ using PcHardware.Repositories.Category;
 using PcHardware.Repositories.Cart;
 using PcHardware.Repositories.Wishlist;
 using PcHardware.Repositories.Order;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
+using Stripe;
 
 namespace PcHardware
 {
@@ -32,7 +35,11 @@ namespace PcHardware
             builder.Services.AddScoped<IWishlistRepository, WishlilstRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
             var app = builder.Build();
+
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
