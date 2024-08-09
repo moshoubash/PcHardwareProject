@@ -1,0 +1,47 @@
+﻿@using PcHardware.Services;
+@inject MyDbContext dbContext;
+@model List<PcHardware.Models.Order>
+@{
+    ViewData["Title"] = "Manage";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>Manage</h1>
+
+<table class="table table-striped">
+    <thead class="bg-primary">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DATE</th>
+            <th>TOTAL AMOUNT</th>
+            <th>STATUS</th>
+            <th>USER EMAIL</th>
+            <th>LOCATION</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var o in Model)
+            {
+                var userOrder = dbContext.Users.Where(u => u.Id == o.UserId).FirstOrDefault();
+                var addressOrder = dbContext.Addresses.Where(a => a.Id == o.AddressId).FirstOrDefault();
+                <tr>
+                    <td>@o.Id</td>
+                    <td>@userOrder.FirstName @userOrder.LastName</td>
+                    <td>@o.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>$@o.TotalAmount</td>
+                    <td><span class="badge bg-success">@o.Status</span></td>
+                    <td>@userOrder.Email</td>
+                    <td>@dbContext.Countries.Where(c => c.Id == int.Parse(addressOrder.Country)).FirstOrDefault().Name</td>
+                    <td>
+                        <a href="/Order/Details/@o.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="#" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="/Order/Delete/@o.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>

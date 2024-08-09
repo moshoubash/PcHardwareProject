@@ -1,0 +1,45 @@
+﻿@model List<PcHardware.Models.Manufacturer>
+@{
+    ViewData["Title"] = "Manage Manufatureres";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr class="my-3" />
+<form action="/Manufacturer/Create" method="post">
+    <h2>Create Manufacturer</h2>
+
+    <div class="form-group">
+        <label class="form-label">Manufacturer name</label>
+        <input class="form-control" type="text" name="Name" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.Id</td>
+                    <td>@m.Name</td>
+                    <td>
+                        <a class="btn btn-danger" href="/Manufacturer/Delete/@m.Id"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

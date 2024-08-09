@@ -1,0 +1,116 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model PcHardware.Models.Order
+@{
+    ViewData["Title"] = "Order Details";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+
+    var address = dbContext.Addresses.Where(a => a.Id == Model.AddressId).FirstOrDefault();
+    var user = dbContext.Users.Where(u => u.Id == @Model.UserId).FirstOrDefault();
+    var orderItems = dbContext.OrderItems.Where(oi => oi.OrderId == Model.Id).ToList();
+}
+
+<h1>Order Details</h1>
+
+@*Order Details*@
+<dl>
+    <dt>Order Id : </dt>
+    <dd>@Model.Id</dd>
+</dl>
+
+<dl>
+    <dt>Total Amount : </dt>
+    <dd>$@Model.TotalAmount</dd>
+</dl>
+
+<dl>
+    <dt>Order Date : </dt>
+    <dd>@Model.OrderDate.ToString("MM/dd/yyyy")</dd>
+</dl>
+
+<dl>
+    <dt>Status : </dt>
+    <dd>@Model.Status</dd>
+</dl>
+<hr />
+
+@*Address Details*@
+<dl>
+    <dt>Country : </dt>
+    <dd>@dbContext.Countries.Where(c => c.Id == int.Parse(address.Country)).FirstOrDefault().Name</dd>
+</dl>
+
+<dl>
+    <dt>State : </dt>
+    <dd>@address.State</dd>
+</dl>
+
+<dl>
+    <dt>City : </dt>
+    <dd>@address.City</dd>
+</dl>
+
+<dl>
+    <dt>Street : </dt>
+    <dd>@address.Street</dd>
+</dl>
+
+<dl>
+    <dt>Postal Code : </dt>
+    <dd>@address.PostalCode</dd>
+</dl>
+<hr />
+
+@*User details*@
+
+<dl>
+    <dt>First Name : </dt>
+    <dd>@user.FirstName</dd>
+</dl>
+
+<dl>
+    <dt>Last Name : </dt>
+    <dd>@user.LastName</dd>
+</dl>
+
+<dl>
+    <dt>Email : </dt>
+    <dd>@user.Email</dd>
+</dl>
+
+<dl>
+    <dt>Phone number : </dt>
+    <dd>@user.PhoneNumber</dd>
+</dl>
+
+<dl>
+    <dt>Date of birth : </dt>
+    <dd>@user.DateOfBirth.ToString("MM/dd/yyyy")</dd>
+</dl>
+<br />
+
+@*Order Items*@
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var oi in orderItems)
+            {
+                var product = dbContext.Products.Where(p => p.Id == oi.ProductId).FirstOrDefault();
+                <tr>
+                    <td><img src="/ProductsImages/@product.ImageUrl" width="100" /></td>
+                    <td>@product.Name</td>
+                    <td>@oi.Quantity</td>
+                    <td>$@oi.UnitPrice</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

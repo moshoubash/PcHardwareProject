@@ -35,13 +35,7 @@ namespace PcHardware.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet]
-        public ActionResult Create() {
-            return View();
-        }
-
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, seller")]
         [HttpPost]
         public ActionResult Create(Category category)
         {
@@ -50,14 +44,14 @@ namespace PcHardware.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, seller")]
         public ActionResult Delete(int Id)
         {
             categoryRepository.DeleteCategory(Id);
             return RedirectToAction("Manage");
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, seller")]
         [HttpGet]
         public ActionResult Manage()
         {

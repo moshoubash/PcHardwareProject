@@ -1,0 +1,44 @@
+﻿@model List<PcHardware.Models.Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1> 
+<hr class="my-3"/>
+<form action="/Category/Create" method="post">
+    <h2>Create Category</h2>
+
+    <div class="form-group">
+        <label class="form-label">Category name</label>
+        <input class="form-control" type="text" name="Name"/>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var c in Model)    
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>@c.Name</td>
+                    <td>
+                        <a class="btn btn-danger" href="/Category/Delete/@c.Id"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>

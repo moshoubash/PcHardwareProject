@@ -10,6 +10,7 @@ using PcHardware.Repositories.Order;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using Stripe;
+using PcHardware.Repositories.Manufacturer;
 
 namespace PcHardware
 {
@@ -34,9 +35,9 @@ namespace PcHardware
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IWishlistRepository, WishlilstRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-
+            builder.Services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
+            
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-
             var app = builder.Build();
 
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
@@ -53,7 +54,6 @@ namespace PcHardware
             app.UseAuthorization();
 
             app.MapRazorPages();
-
             app.Run();
         }
     }
