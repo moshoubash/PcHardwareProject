@@ -20,7 +20,7 @@
             <a href="/Category/Products/@Model.CategoryId" class="badge bg-dark">
                 @(dbContext.Categories.FirstOrDefault(c => c.Id == Model.CategoryId)?.Name ?? "Unknown Category")
             </a>
-            <p>@Model.Description</p>
+            <p>@Html.Raw(@Model.Description)</p>
 
             <h3 class="text-success">@Model.Price.ToString("C")</h3>
             <p class="text-muted">Availability: @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")</p>

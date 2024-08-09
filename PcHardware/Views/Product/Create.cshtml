@@ -5,7 +5,7 @@
 
 <h1>Create</h1>
 
-<form enctype="multipart/form-data" method="post">
+<form enctype="multipart/form-data" method="post" onsubmit="fn()">
     @*Product Name*@
     <div class="form-group">
         <label class="form-label">Product Name</label>
@@ -14,8 +14,8 @@
 
     @*Product Description*@
     <div class="form-group">
-        <label class="form-label">Product Description</label>
-        <input name="Description" class="form-control" type="text" placeholder="Product Description" />
+        <div id="editor"></div>
+        <input type="hidden" name="Description" id="inputValue" />
     </div>
 
     @*Product Quantity*@
@@ -67,3 +67,13 @@
         <button class="btn btn-primary" type="submit">Create</button>
     </div>
 </form>
+
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+    function fn() {
+        document.getElementById('inputValue').value = quill.root.innerHTML;
+    }
+</script>
