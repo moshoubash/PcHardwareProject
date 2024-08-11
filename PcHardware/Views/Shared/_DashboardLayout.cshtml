@@ -67,10 +67,10 @@
         <div class="scroll-wrapper sidebar-wrapper scrollbar scrollbar-inner" style="position: relative;"><div class="sidebar-wrapper scrollbar scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 351.25px;">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
-              <li class="nav-item active">
-                <a data-bs-toggle="collapse" href="/Seller/Dashboard" class="collapsed" aria-expanded="false">
+              <li class="nav-item">
+                <a href="/Seller/Dashboard" class="collapsed" aria-expanded="false">
                   <i class="fas fa-home"></i>
-                  <p>Dashboard</p>
+                  <p>Overview</p>
                 </a>
               </li>
               <li class="nav-section">
@@ -82,7 +82,7 @@
               <li class="nav-item">
                 @* Products *@
                 <a data-bs-toggle="collapse" href="#base">
-                  <i class="fa-brands fa-product-hunt"></i>
+                  <i class="fa-solid fa-box-open"></i>
                   <p>Products</p>
                   <span class="caret"></span>
                 </a>
@@ -117,13 +117,48 @@
                     <i class="fa-solid fa-industry"></i>
                     <p>Manufacturers</p>
                 </a>
-                                
+                
+                @*Discounts*@
+                <a href="/Discounts/Manage">
+                    <i class="fa-solid fa-percent"></i>
+                    <p>Discounts</p>
+                </a>
+
+                @*Customers*@
+                <a href="/Seller/Settings">
+                    <i class="fa-solid fa-user"></i>
+                    <p>Customers</p>
+                </a>
+
+                @*Inventory*@
+                <a href="/Seller/Settings">
+                    <i class="fa-solid fa-warehouse"></i>
+                    <p>Inventory</p>
+                </a>
+
+                @*Shipping Management*@
+                <a href="/Seller/Settings">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <p>Shipping</p>
+                </a>
+
+                @*Contacts*@
+                <a href="/Seller/Settings">
+                    <i class="fa-solid fa-address-book"></i>
+                    <p>Contacts</p>
+                </a>
+
+                @*Notification*@
+                <a href="/Seller/Settings">
+                    <i class="fa-solid fa-bell"></i>
+                    <p>Notifications</p>
+                </a>
+
                 @*Settings*@
                 <a href="/Seller/Settings">
                     <i class="fa-solid fa-gear"></i>
                     <p>Settings</p>
                 </a>
-
               </li>
             </ul>
           </div>

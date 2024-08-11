@@ -1,0 +1,43 @@
+﻿@model PcHardware.Models.Discount
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label class="form-label">Discount Name</label>
+        <input type="text" class="form-control" name="Name" value="@Model.Name" />
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Discount Percentage</label>
+        <input type="text" class="form-control" name="DiscountPercentage" value="@Model.DiscountPercentage" />
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Is Active</label>
+        <select class="form-control" name="IsActive">
+            <option value="false" @(Model.IsActive ? "" : "selected")>False</option>
+            <option value="true" @(Model.IsActive ? "selected" : "")>True</option>
+        </select>
+    </div>
+
+    <div class="form-group row">
+        <div class="col form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="col form-group">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-control" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary">Edit</button>
+    </div>
+</form>

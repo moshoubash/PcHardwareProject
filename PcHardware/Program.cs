@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using Stripe;
 using PcHardware.Repositories.Manufacturer;
+using PcHardware.Repositories.Discount;
 
 namespace PcHardware
 {
@@ -36,7 +37,8 @@ namespace PcHardware
             builder.Services.AddScoped<IWishlistRepository, WishlilstRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
-            
+            builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             var app = builder.Build();
 

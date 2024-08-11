@@ -18,6 +18,9 @@ namespace PcHardware.Models
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
 
+        public int DiscountId { get; set; }
+        public Discount? Discount { get; set; }
+        
         public List<OrderItem>? OrderItems { get; set; }
     }
 }

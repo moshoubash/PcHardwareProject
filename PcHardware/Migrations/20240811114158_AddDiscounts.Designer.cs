@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcHardware.Services;
 
@@ -11,9 +12,11 @@ using PcHardware.Services;
 namespace PcHardware.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240811114158_AddDiscounts")]
+    partial class AddDiscounts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,25 +54,25 @@ namespace PcHardware.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b242d5cc-b01f-461b-9db9-43e2e773794f",
+                            Id = "d2f2fea3-3ece-4fb5-a0bb-7c67b7525c1a",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "efb3a81a-5eaa-4567-858c-a1e4984a2798",
+                            Id = "4daddcd6-0b0d-47ef-b998-d63c03389d6a",
                             Name = "seller",
                             NormalizedName = "seller"
                         },
                         new
                         {
-                            Id = "846a8294-8d31-4fd5-a3db-2bdcea58afb4",
+                            Id = "88d0a2e0-0d87-49cc-9ffd-abb68fa5b483",
                             Name = "client",
                             NormalizedName = "client"
                         },
                         new
                         {
-                            Id = "76b72006-b2d1-4074-8f03-a39ff862c613",
+                            Id = "2b5d80e7-792e-4ae4-8e8f-d2ae8703f8db",
                             Name = "WarehouseManager",
                             NormalizedName = "WarehouseManager"
                         });
@@ -451,9 +454,6 @@ namespace PcHardware.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DiscountId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -470,8 +470,6 @@ namespace PcHardware.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique();
-
-                    b.HasIndex("DiscountId");
 
                     b.HasIndex("UserId");
 
@@ -759,19 +757,11 @@ namespace PcHardware.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PcHardware.Models.Discount", "Discount")
-                        .WithMany("Orders")
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PcHardware.Models.ApplicationUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Address");
-
-                    b.Navigation("Discount");
 
                     b.Navigation("User");
                 });
@@ -885,11 +875,6 @@ namespace PcHardware.Migrations
             modelBuilder.Entity("PcHardware.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("PcHardware.Models.Discount", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("PcHardware.Models.Manufacturer", b =>

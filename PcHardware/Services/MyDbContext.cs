@@ -61,6 +61,7 @@ namespace PcHardware.Services
             // ORDER
             builder.Entity<Order>().HasOne(o => o.User).WithMany(u => u.Orders).HasForeignKey(o => o.UserId);
             builder.Entity<Order>().HasOne(o => o.Address).WithOne(a => a.Order).HasForeignKey<Order>(o => o.AddressId);
+            builder.Entity<Order>().HasOne(o => o.Discount).WithMany(d => d.Orders).HasForeignKey(o => o.DiscountId);
 
             // ORDER ITEM
             builder.Entity<OrderItem>().HasOne(oi => oi.Order).WithMany(o => o.OrderItems).HasForeignKey(oi => oi.OrderId);
@@ -68,6 +69,7 @@ namespace PcHardware.Services
 
             // Product Specification
             builder.Entity<ProductSpecification>().HasOne(ps => ps.Product).WithMany(p => p.ProductSpecifications).HasForeignKey(ps => ps.ProductId);
+
         }
 
         public DbSet<Product> Products { get; set; }
@@ -84,5 +86,6 @@ namespace PcHardware.Services
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
     }
 }

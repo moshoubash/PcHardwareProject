@@ -1,0 +1,75 @@
+﻿@model List<PcHardware.Models.Discount>
+@{
+    ViewData["Title"] = "Manage Discoutns";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>Create Discount</h1>
+
+<form method="post" action="/Discounts/Create">
+    <div class="form-group">
+        <label class="form-label">Discount Name</label>
+        <input type="text" class="form-control" name="Name"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Discount Precentage</label>
+        <input type="text" class="form-control" name="DiscountPercentage" />
+    </div>
+
+    <div class="row form-group">
+        <div class="col form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" name="StartDate" />
+        </div>
+
+        <div class="col form-group">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-control" name="EndDate" />
+        </div>
+    </div>
+
+    <input type="hidden" name="IsActive" value="true" />
+
+    <div class="form-group">
+        <button class="btn btn-primary">Create</button>
+    </div>
+</form>
+<hr />
+<h1>Manage Discounts</h1>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Precentage</th>
+            <th>Is Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var d in Model)
+            {
+                <tr>
+                    <td>@d.Id</td>
+                    <td>@d.Name</td>
+                    <td>@d.StartDate.ToString("MM/dd/yyyy")</td>
+                    <td>@d.EndDate.ToString("MM/dd/yyyy")</td>
+                    <td>%@d.DiscountPercentage</td>
+                    @{
+                        if (d.IsActive == true) { <td><span class="badge bg-success">Active</span></td> }
+                        else { <td><span class="badge bg-danger">InActive</span></td>}
+                    }
+                    <td>
+                        <a href="/Discounts/Delete/@d.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        <a href="/Discounts/Edit/@d.Id" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>
