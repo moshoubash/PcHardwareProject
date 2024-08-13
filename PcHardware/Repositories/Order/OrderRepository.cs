@@ -27,7 +27,7 @@ namespace PcHardware.Repositories.Order
 
         List<Models.Order> IOrderRepository.GetOrders()
         {
-            return dbContext.Orders.ToList() ;
+            return dbContext.Orders.ToList();
         }
 
         List<Models.Order> IOrderRepository.GetUserOrders(string UserId)

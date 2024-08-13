@@ -1,0 +1,38 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Address>
+@{
+    ViewData["Title"] = "AddressBook";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-2">Address Book</h1>
+<a href="/Address/Create" class="btn btn-primary my-3">Create new address</a>
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>COUNTRY</th>
+            <th>STATE</th>
+            <th>CITY</th>
+            <th>STREET</th>
+            <th>POSTAL CODE</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var a in Model)
+            {
+                var country = dbContext.Countries.Where(c => c.Id == int.Parse(a.Country)).FirstOrDefault();
+                <tr>
+                    <td>@country.Name</td>
+                    <td>@a.State</td>
+                    <td>@a.City</td>
+                    <td>@a.Street</td>
+                    <td>@a.PostalCode</td>
+                    <td><a href="/Address/Delete/@a.Id" class="btn btn-danger">Delete</a></td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Create Address";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-2">Create Address</h1>
+
+<form method="post">
+    @*Country*@
+    <div class="col-md-12">
+        <label for="country" class="form-label">Country</label>
+        <select class="form-select" id="country" name="Country" required="">
+            @{
+                foreach (var c in ViewBag.Countries)
+                {
+                    <option value="@c.Value">@c.Text</option>
+                }
+            }
+        </select>
+    </div>
+
+    @*City*@
+    <div class="form-group">
+        <label class="form-label">City</label>
+        <input name="City" class="form-control" type="text" placeholder="City" />
+    </div>
+
+    @*State*@
+    <div class="form-group">
+        <label class="form-label">State</label>
+        <input name="State" class="form-control" type="text" placeholder="State" />
+    </div>
+
+    @*Street*@
+    <div class="form-group">
+        <label class="form-label">Street</label>
+        <input name="Street" class="form-control" type="text" placeholder="Street" />
+    </div>
+
+    @*Postal code*@
+    <div class="form-group">
+        <label class="form-label">Postal code</label>
+        <input name="PostalCode" class="form-control" type="number" placeholder="ex. 21111" />
+    </div>
+
+    <br />
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

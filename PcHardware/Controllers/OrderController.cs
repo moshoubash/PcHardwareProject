@@ -15,7 +15,8 @@ namespace PcHardware.Controllers
 
         public ActionResult Manage()
         {
-            return View(orderRepository.GetOrders());
+            var orders = orderRepository.GetOrders();
+            return View(orders);
         }
 
         [HttpGet]

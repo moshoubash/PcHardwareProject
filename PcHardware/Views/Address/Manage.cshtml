@@ -1,0 +1,45 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Address>
+@{
+    ViewData["Title"] = "Manage Addresses";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>COUNTRY</th>
+            <th>STATE</th>
+            <th>CITY</th>
+            <th>STREET</th>
+            <th>POSTAL CODE</th>
+            <th>USER EMAIL</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var a in Model)
+            {
+                var country = dbContext.Countries.FirstOrDefault(c => c.Id == int.Parse(a.Country));
+                var user = dbContext.Users.FirstOrDefault(u => u.Id == a.UserId);
+                <tr>
+                    <td>@a.Id</td>
+                    <td>@country.Name</td>
+                    <td>@a.State</td>
+                    <td>@a.City</td>
+                    <td>@a.Street</td>
+                    <td>@a.PostalCode</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a href="/Address/Edit/@a.Id" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="/Address/Delete/@a.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>
