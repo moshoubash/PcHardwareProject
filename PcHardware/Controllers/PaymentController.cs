@@ -100,7 +100,8 @@ namespace PcHardware.Controllers
                 TotalAmount = TotalAmount,
                 Status = "Pending",
                 AddressId = targetAddress.Id,
-                UserId = targetAddress.UserId
+                UserId = targetAddress.UserId,
+                DiscountId = 9
             };
             
             // Add order to the database

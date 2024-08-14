@@ -1,0 +1,45 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Order>
+@{
+    ViewData["Title"] = "UserOrders";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>UserOrders</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Order Date</th>
+            <th>Discount</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var o in Model)
+            {
+                var discount = dbContext.Discounts.FirstOrDefault(d => d.Id == o.DiscountId);
+                var address = dbContext.Addresses.FirstOrDefault(a => a.Id == o.AddressId);
+                var country = dbContext.Countries.FirstOrDefault(c => c.Id == int.Parse(address.Country));
+                <tr>
+                    <td>$@o.TotalAmount</td>
+                    <td><span class="badge bg-secondary">@o.Status</span></td>
+                    <td>@o.OrderDate.ToString("dd/MM/yyyy")</td>
+                    <td>%@discount.DiscountPercentage</td>
+                    <td>
+                        <p class="badge bg-primary">Country : @country.Name</p><br />
+                        <p class="badge bg-success">City : @address.City</p><br />
+                        <p class="badge bg-warning">State : @address.State</p><br />
+                        <p class="badge bg-danger">Postal code : @address.PostalCode</p><br />
+                        <p class="badge bg-info">Street : @address.Street</p>
+                    </td>
+                    <td><a href="/Order/Details/@o.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a></td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>
