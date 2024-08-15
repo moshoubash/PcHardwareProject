@@ -50,6 +50,9 @@ namespace PcHardware.Services
             builder.Entity<Inventory>().HasOne(i => i.Product).WithMany(p => p.Inventories).HasForeignKey(i => i.ProductId);
             builder.Entity<Inventory>().HasOne(i => i.Warehouse).WithMany(w => w.Inventories).HasForeignKey(w => w.WarehouseId);
 
+            // WAREHOUSE
+            builder.Entity<Warehouse>().HasOne(w => w.Address).WithOne(a => a.Warehouse).HasForeignKey<Warehouse>(w => w.AddressId);
+
             // REVIEW
             builder.Entity<Review>().HasOne(r => r.User).WithMany(u => u.Reviews).HasForeignKey(r => r.UserId);
             builder.Entity<Review>().HasOne(r => r.Product).WithMany(p => p.Reviews).HasForeignKey(r => r.ProductId);

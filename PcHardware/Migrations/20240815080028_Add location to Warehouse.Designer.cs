@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcHardware.Services;
 
@@ -11,9 +12,11 @@ using PcHardware.Services;
 namespace PcHardware.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240815080028_Add location to Warehouse")]
+    partial class AddlocationtoWarehouse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,25 +54,25 @@ namespace PcHardware.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "39f0578a-d06b-40c2-923f-164ace7b95bb",
+                            Id = "8138fae5-8fe4-401b-9589-bd13df50bb58",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "5505b56c-bce0-4911-b92e-ee71c926f61a",
+                            Id = "cf28d35d-4c92-48a5-8da2-43d3c9d416f3",
                             Name = "seller",
                             NormalizedName = "seller"
                         },
                         new
                         {
-                            Id = "ba73991f-bbec-4f8a-8967-eaaf96dfc3e3",
+                            Id = "e042ee3e-45a3-429f-837e-6491dcd01202",
                             Name = "client",
                             NormalizedName = "client"
                         },
                         new
                         {
-                            Id = "c84ab935-f29b-41ac-bcbd-bb53f76e16fc",
+                            Id = "c8cb8261-3d2c-4e8e-b51e-c7ecaf9bd10d",
                             Name = "WarehouseManager",
                             NormalizedName = "WarehouseManager"
                         });
@@ -610,7 +613,7 @@ namespace PcHardware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -618,8 +621,7 @@ namespace PcHardware.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Warehouses");
                 });
@@ -847,13 +849,11 @@ namespace PcHardware.Migrations
 
             modelBuilder.Entity("PcHardware.Models.Warehouse", b =>
                 {
-                    b.HasOne("PcHardware.Models.Address", "Address")
-                        .WithOne("Warehouse")
-                        .HasForeignKey("PcHardware.Models.Warehouse", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PcHardware.Models.Address", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("Address");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("PcHardware.Models.Wishlist", b =>
@@ -876,8 +876,6 @@ namespace PcHardware.Migrations
             modelBuilder.Entity("PcHardware.Models.Address", b =>
                 {
                     b.Navigation("Order");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("PcHardware.Models.ApplicationUser", b =>

@@ -14,6 +14,7 @@ using PcHardware.Repositories.Manufacturer;
 using PcHardware.Repositories.Discount;
 using PcHardware.Repositories.Address;
 using PcHardware.Repositories.Customers;
+using PcHardware.Repositories.Warehouse;
 
 namespace PcHardware
 {
@@ -42,6 +43,7 @@ namespace PcHardware
             builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
             builder.Services.AddScoped<IAddressRepository, AddressRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             var app = builder.Build();

@@ -101,7 +101,7 @@ namespace PcHardware.Controllers
                 Status = "Pending",
                 AddressId = targetAddress.Id,
                 UserId = targetAddress.UserId,
-                DiscountId = 9
+                DiscountId = 20
             };
             
             // Add order to the database

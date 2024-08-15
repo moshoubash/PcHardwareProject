@@ -43,5 +43,26 @@ namespace PcHardware.Repositories
         {
             return dbContext.Products.ToList();
         }
+
+        List<Product> IProductRepository.TopThreeProducts()
+        {
+            var topThreeProductIds = dbContext.OrderItems
+                .GroupBy(oi => oi.ProductId)
+                .Select(g => new
+                {
+                    ProductId = g.Key,
+                    TotalQuantitySold = g.Sum(oi => oi.Quantity)
+                })
+                .OrderByDescending(g => g.TotalQuantitySold)
+                .Take(3)
+                .Select(g => g.ProductId) // Select only the ProductId
+                .ToList();
+
+            var topThreeProducts = dbContext.Products
+                .Where(p => topThreeProductIds.Contains(p.Id))
+                .ToList();
+
+            return topThreeProducts;
+        }
     }
 }

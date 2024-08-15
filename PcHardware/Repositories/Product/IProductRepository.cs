@@ -9,5 +9,6 @@ namespace PcHardware.Repositories
         public void EditProduct(Product product);
         public void DeleteProduct(int Id);
         public Product GetProductById(int Id);
+        public List<Product> TopThreeProducts();
     }
 }

@@ -1,7 +1,238 @@
-﻿@{
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@{
     ViewData["Title"] = "Seller Dashboard";
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
+<br />
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Products</p>
+                            <h4 class="card-title">@ViewBag.ProductsNumber</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-info bubble-shadow-small">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Customers</p>
+                            <h4 class="card-title">@ViewBag.CustomersNumber</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                            <i class="fas fa-luggage-cart"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Sales</p>
+                            <h4 class="card-title">$@ViewBag.TotalSales</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-icon">
+                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                            <i class="far fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                            <p class="card-category">Order</p>
+                            <h4 class="card-title">@ViewBag.OrdersNumber</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
 
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Orders history</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="barChart" width="616" height="600" style="display: block; width: 308px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Products</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="doughnutChart" style="width: 308px; height: 300px; display: block;" width="616" height="600" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Pending Orders</div>
+    </div>
+    <div class="card-body">
+        <table class="table table-head-bg-primary">
+            <thead class="bg-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>DATE</th>
+                    <th>TOTAL AMOUNT</th>
+                    <th>STATUS</th>
+                    <th>USER EMAIL</th>
+                    <th>PHONE NUMBER</th>
+                    <th>LOCATION</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @{
+                        foreach (var o in dbContext.Orders.Where(o => o.Status == "pending").ToList())
+                        {
+                            var userOrder = dbContext.Users.Where(u => u.Id == o.UserId).FirstOrDefault();
+                            var addressOrder = dbContext.Addresses.Where(a => a.Id == o.AddressId).FirstOrDefault();
+                            <tr>
+                                <td>@o.Id</td>
+                                <td>@userOrder.FirstName @userOrder.LastName</td>
+                                <td>@o.OrderDate.ToString("MM/dd/yyyy")</td>
+                                <td>$@o.TotalAmount</td>
+                                <td><span class="badge bg-success">@o.Status</span></td>
+                                <td>@userOrder.Email</td>
+                                <td>@userOrder.PhoneNumber</td>
+                                <td>@dbContext.Countries.Where(c => c.Id == int.Parse(addressOrder.Country)).FirstOrDefault().Name</td>
+                                <td>
+                                    <a href="/Order/Details/@o.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/dashboard/js/plugin/chart.js/chart.min.js"></script>
+<script>
+    var barChart = document.getElementById("barChart").getContext("2d"),
+        doughnutChart = document.getElementById("doughnutChart").getContext("2d");
+
+    var myBarChart = new Chart(barChart, {
+        type: "bar",
+        data: {
+            labels: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+            ],
+            datasets: [
+                {
+                    label: "Sales",
+                    backgroundColor: "rgb(23, 125, 255)",
+                    borderColor: "rgb(23, 125, 255)",
+                    data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    },
+                ],
+            },
+        },
+    });
+
+    // Extract product names and quantities from the model
+    var productNames = @Html.Raw(Json.Serialize(Model.ProductNames));
+    var productQuantities = @Html.Raw(Json.Serialize(Model.Quantities));
+
+    // Doughnut Chart
+    var doughnutChart = document.getElementById('doughnutChart').getContext('2d');
+    var myDoughnutChart = new Chart(doughnutChart, {
+        type: "doughnut",
+        data: {
+            datasets: [{
+                data: productQuantities, // Use the product quantities for the chart
+                backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
+            }],
+            labels: productNames // Use the product names for the chart
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: "bottom",
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 20,
+                    top: 20,
+                    bottom: 20,
+                },
+            },
+        },
+    });
+</script>

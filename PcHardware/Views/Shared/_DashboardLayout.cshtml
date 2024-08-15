@@ -130,11 +130,26 @@
                     <p>Customers</p>
                 </a>
 
-                @*Inventory*@
-                <a href="/Seller/Settings">
+                @* Warehouse *@
+                <a data-bs-toggle="collapse" href="#base2">
                     <i class="fa-solid fa-warehouse"></i>
-                    <p>Inventory</p>
+                    <p>Warehouse</p>
+                    <span class="caret"></span>
                 </a>
+                <div class="collapse" id="base2">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="/Warehouse/Manage">
+                                <span class="sub-item">Manage Warehouses</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Product/Create">
+                                <span class="sub-item">Inventories</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
                 @*Shipping Management*@
                 <a href="/Seller/Settings">

@@ -17,5 +17,6 @@ namespace PcHardware.Models
         public ApplicationUser? User { get; set; }
 
         public Order? Order { get; set; }
+        public Warehouse? Warehouse { get; set; }
     }
 }

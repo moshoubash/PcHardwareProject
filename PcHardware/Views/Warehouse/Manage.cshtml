@@ -1,0 +1,34 @@
+﻿@model List<PcHardware.Models.Warehouse>
+@{
+    ViewData["Title"] = "Manage Warehouses";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<table class="table table-striped">
+    <thead class="bg-primary">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var w in Model)
+            {
+                <tr>
+                    <td>@w.Id</td>
+                    <td>@w.Name</td>
+                    <td>w.Location</td>
+                    <td>
+                        <a href="/Warehouse/Details/@w.Id" class="btn btn-primary">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
