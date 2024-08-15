@@ -13,6 +13,8 @@ namespace PcHardware.Models
         public int AddressId { get; set; }
         public Address? Address { get; set; }
 
+        public string? WarehouseManagerName { get; set; }
+
         public List<Inventory>? Inventories { get; set; }
     }
 }

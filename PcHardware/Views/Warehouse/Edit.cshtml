@@ -1,0 +1,74 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model PcHardware.Models.Warehouse
+@{
+    ViewData["Title"] = "Edit Warehouse";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+
+    var address = dbContext.Addresses.FirstOrDefault(a => a.Id == Model.AddressId);
+    var country = dbContext.Countries.FirstOrDefault(c => c.Id == int.Parse(address.Country));
+}
+
+<h1 class="mt-2">@ViewData["Title"]</h1>
+
+<h2 class="my-3">Warehouse Information</h2>
+
+<form method="post" action="/Warehouse/Edit">
+    <div class="form-group">
+        <label class="form-label">Warehouse Name : </label>
+        <input type="text" class="form-control" name="Name" value="@Model.Name" required />
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Warehouse Manager : </label>
+        <input type="text" class="form-control" name="WarehouseManagerName" value="@Model.WarehouseManagerName" required />
+    </div>
+
+    <hr class="my-2" />
+
+    <h3 class="mb-2">Address Information</h3>
+
+    <div class="row form-group">
+        @* Country *@
+        <div class="form-group col">
+            <label for="country" class="form-label">Country</label>
+            <select class="form-select" id="country" name="Country" required="">
+                @{
+                    foreach (var c in ViewBag.Countries)
+                    {
+                        <option value="@c.Value" @(address.Country == c.Value ? "selected" : "")>@c.Text</option>
+                    }
+                }
+            </select>
+        </div>
+
+        @* City *@
+        <div class="form-group col">
+            <label class="form-label">City</label>
+            <input name="City" class="form-control" type="text" value="@address.City" />
+        </div>
+
+        @* State *@
+        <div class="form-group col">
+            <label class="form-label">State</label>
+            <input name="State" class="form-control" type="text" value="@address.State"/>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        @* Street *@
+        <div class="form-group col-md-9">
+            <label class="form-label">Street</label>
+            <input name="Street" class="form-control" type="text" value="@address.Street"/>
+        </div>
+
+        @* Postal code *@
+        <div class="form-group col-md-3">
+            <label class="form-label">Postal code</label>
+            <input name="PostalCode" class="form-control" type="number" value="@address.PostalCode" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>

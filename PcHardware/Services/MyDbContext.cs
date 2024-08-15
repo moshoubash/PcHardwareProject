@@ -25,10 +25,7 @@ namespace PcHardware.Services
             var client = new IdentityRole("client");
             client.NormalizedName = "client";
 
-            var WarehouseManager = new IdentityRole("WarehouseManager");
-            WarehouseManager.NormalizedName = "WarehouseManager";
-
-            builder.Entity<IdentityRole>().HasData(admin, seller, client, WarehouseManager);
+            builder.Entity<IdentityRole>().HasData(admin, seller, client);
             
             // RELATIONS
 

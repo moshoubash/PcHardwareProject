@@ -1,18 +1,23 @@
-﻿@model List<PcHardware.Models.Warehouse>
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Warehouse>
 @{
     ViewData["Title"] = "Manage Warehouses";
     Layout = "/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-
+<h1 class="mt-3">@ViewData["Title"]</h1>
+<a class="btn btn-dark my-3" href="/Warehouse/Create">+ Create Warehouse</a>
 <table class="table table-striped">
     <thead class="bg-primary">
         <tr>
             <th>ID</th>
-            <th>NAME</th>
-            <th>Location</th>
+            <th>Name</th>
+            <th>Manager</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Street</th>
+            <th>Postal Code</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -20,12 +25,21 @@
         @{
             foreach (var w in Model)
             {
+                var address = dbContext.Addresses.Where(a => a.Id == w.AddressId).FirstOrDefault();
+                var country = dbContext.Countries.FirstOrDefault(c => c.Id == int.Parse(address.Country));
                 <tr>
                     <td>@w.Id</td>
                     <td>@w.Name</td>
-                    <td>w.Location</td>
+                    <td>@w.WarehouseManagerName</td>
+                    <td>@country.Name</td>
+                    <td>@address.City</td>
+                    <td>@address.State</td>
+                    <td>@address.Street</td>
+                    <td>@address.PostalCode</td>
                     <td>
-                        <a href="/Warehouse/Details/@w.Id" class="btn btn-primary">Details</a>
+                        <a href="/Warehouse/Details/@w.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="/Warehouse/Delete/@w.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        <a href="/Warehouse/Edit/@w.Id" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
                 </tr>
             }

@@ -32,7 +32,7 @@ namespace PcHardware.Repositories.Warehouse
             var targetWarehouse = dbContext.Warehouses.FirstOrDefault(w => w.Id == warehouse.Id);
             if (targetWarehouse != null)
             {
-                
+                dbContext.Warehouses.Update(targetWarehouse);
             }
         }
 

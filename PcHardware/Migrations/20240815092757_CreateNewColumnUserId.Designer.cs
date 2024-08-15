@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PcHardware.Services;
 
@@ -11,9 +12,11 @@ using PcHardware.Services;
 namespace PcHardware.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240815092757_CreateNewColumnUserId")]
+    partial class CreateNewColumnUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,21 +54,27 @@ namespace PcHardware.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "af830bc0-fc72-4dae-935f-0da375f58db5",
+                            Id = "e3a8ee47-975c-4ed4-858d-86aa621b1d21",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "3cbd33a0-4ef7-44da-8189-b3fd4713c6d7",
+                            Id = "26a62562-df31-427c-97bc-88eba924f5f0",
                             Name = "seller",
                             NormalizedName = "seller"
                         },
                         new
                         {
-                            Id = "931ff87b-4b88-4d09-a72f-367504b635b5",
+                            Id = "0bf11275-f32b-4a66-bced-7a3f9f99815c",
                             Name = "client",
                             NormalizedName = "client"
+                        },
+                        new
+                        {
+                            Id = "bb58a54c-a9f1-406a-88f4-2cc287848aad",
+                            Name = "WarehouseManager",
+                            NormalizedName = "WarehouseManager"
                         });
                 });
 
@@ -610,13 +619,17 @@ namespace PcHardware.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("WarehouseManagerName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
                         .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Warehouses");
                 });
@@ -850,7 +863,13 @@ namespace PcHardware.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PcHardware.Models.ApplicationUser", "User")
+                        .WithOne("Warehouse")
+                        .HasForeignKey("PcHardware.Models.Warehouse", "UserId");
+
                     b.Navigation("Address");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PcHardware.Models.Wishlist", b =>
@@ -886,6 +905,8 @@ namespace PcHardware.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Warehouse");
 
                     b.Navigation("Wishlists");
                 });

@@ -15,7 +15,7 @@
             @{
                 foreach (var c in ViewBag.Countries)
                 {
-                    <option value="@c.Value">@c.Text</option>
+                    <option value="@c.Value" @(Model.Country == c.Value ? "selected" : "")>@c.Text</option>
                 }
             }
         </select>
