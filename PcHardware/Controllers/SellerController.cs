@@ -15,18 +15,20 @@ namespace PcHardware.Controllers
     [Authorize(Roles = "seller")]
     public class SellerController : Controller
     {
+        private readonly FedExService _fedExService;
         private readonly IProductRepository ProductRepository;
         private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly MyDbContext dbContext;
-        public SellerController(UserManager<ApplicationUser> userManager, IOrderRepository orderRepository, ICustomerRepository customerRepository, MyDbContext dbContext, IProductRepository ProductRepository)
+        public SellerController(UserManager<ApplicationUser> userManager, FedExService _fedExService, IOrderRepository orderRepository, ICustomerRepository customerRepository, MyDbContext dbContext, IProductRepository ProductRepository)
         {
             this.userManager = userManager;
             this.dbContext = dbContext;
             this.ProductRepository = ProductRepository;
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
+            this._fedExService = _fedExService;
         }
         public ActionResult Dashboard()
         {
@@ -89,7 +91,8 @@ namespace PcHardware.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePassword(string currentPassword, string newPassword) {
+        public async Task<ActionResult> ChangePassword(string currentPassword, string newPassword)
+        {
             var user = await userManager.GetUserAsync(User);
             await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
             return Redirect("/Seller/Settings");

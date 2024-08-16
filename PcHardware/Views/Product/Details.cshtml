@@ -1,4 +1,5 @@
 ﻿@inject PcHardware.Services.MyDbContext dbContext;
+@inject PcHardware.Repositories.Review.IReviewRepository rev;
 @using PcHardware.Models;
 @model Product
 
@@ -43,5 +44,49 @@
                 </form>
             </div>
         </div>
+    </div>
+    <hr class="my-2"/>
+    
+    <div class="row">
+        <h2>Reviews</h2>
+        @{
+            foreach (var r in rev.GetProductReviews(Model.Id))
+            {
+                var user = dbContext.Users.FirstOrDefault(u => u.Id == r.UserId);
+                <p>@(user.Email) says @r.Comment with rating @r.Rating</p>
+            }
+        }
+    </div>
+
+    <hr class="my-2" />
+
+    <div class="row">
+        <h2>Write review</h2>
+        
+        <form action="/User/CreateReview" method="post">
+            <div class="form-group">
+                <label class="form-label">Rating 1 - 5</label>
+                <select name="Rating" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Comment</label>
+                <input name="Comment" type="text" class="form-control" />
+            </div>
+
+            <input type="hidden" value="@Model.Id" name="ProductId" />
+
+            <br />
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
     </div>
 </div>

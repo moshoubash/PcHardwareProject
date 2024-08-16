@@ -46,5 +46,23 @@ namespace PcHardware.Controllers
             dbContext.SaveChanges();
             return Redirect("/User/Settings");
         }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateReview(int ProductId, int Rating, string Comment) {
+            var user = await userManager.GetUserAsync(User);
+
+            var review = new Review { 
+                ProductId = ProductId,
+                Rating = Rating,
+                Comment = Comment,
+                Date = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Reviews.Add(review);
+            dbContext.SaveChanges();
+
+            return Redirect($"/Product/Details/{ProductId}");
+        }
     }
 }

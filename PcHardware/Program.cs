@@ -15,6 +15,7 @@ using PcHardware.Repositories.Discount;
 using PcHardware.Repositories.Address;
 using PcHardware.Repositories.Customers;
 using PcHardware.Repositories.Warehouse;
+using PcHardware.Repositories.Review;
 
 namespace PcHardware
 {
@@ -44,8 +45,20 @@ namespace PcHardware
             builder.Services.AddScoped<IAddressRepository, AddressRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<FedExService>(sp => new FedExService(
+                builder.Configuration["FedEx:ApiKey"],
+                builder.Configuration["FedEx:ApiPassword"],
+                builder.Configuration["FedEx:AccountNumber"],
+                builder.Configuration["FedEx:MeterNumber"],
+                builder.Configuration["FedEx:BaseUrl"]
+            ));
+
             var app = builder.Build();
 
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
