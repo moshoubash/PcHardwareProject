@@ -10,6 +10,7 @@ namespace PcHardware.Repositories.Discount
         {
             this.dbContext = dbContext;
         }
+
         void IDiscountRepository.CreateDiscount(Models.Discount discount)
         {
             dbContext.Discounts.Add(discount);

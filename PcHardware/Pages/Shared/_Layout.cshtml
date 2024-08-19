@@ -4,11 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PcHardware</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PcHardware.styles.css" asp-append-version="true" />
-    
+    <script src="~/dashboard/js/plugin/webfont/webfont.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Public+Sans:300,400,500,600,700" media="all">
+    <link rel="stylesheet" href="~/dashboard/css/fonts.min.css" media="all">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="~/dashboard/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/dashboard/css/plugins.min.css">
+    <link rel="stylesheet" href="~/dashboard/css/kaiadmin.min.css">
+
+    <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/6bc4b501b1.js" crossorigin="anonymous"></script>
 
 </head>
@@ -32,7 +40,7 @@
                             </form>
                         </div>
                         <div class="col-md-5 my-auto">
-                            <ul class="nav justify-content-end" id="clientItemsNav">
+                            <ul class="nav justify-content-end flex-row" id="clientItemsNav">
                                 <partial name="_LoginPartial" />
                             </ul>
                         </div>
@@ -85,6 +93,7 @@
             </nav>
         </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -97,11 +106,30 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!--   Core JS Files   -->
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/dashboard/js/core/jquery-3.7.1.min.js"></script>
+    <script src="~/dashboard/js/core/popper.min.js"></script>
+    <script src="~/dashboard/js/core/bootstrap.min.js"></script>
+    <!-- jQuery Scrollbar -->
+    <script src="~/dashboard/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <!-- Chart JS -->
+    <script src="~/dashboard/js/plugin/chart.js/chart.min.js"></script>
+    <!-- jQuery Sparkline -->
+    <script src="~/dashboard/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <!-- Chart Circle -->
+    <script src="~/dashboard/js/plugin/chart-circle/circles.min.js"></script>
+    <!-- Datatables -->
+    <script src="~/dashboard/js/plugin/datatables/datatables.min.js"></script>
+    <!-- Bootstrap Notify -->
+    <script src="~/dashboard/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <!-- jQuery Vector Maps -->
+    <script src="~/dashboard/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="~/dashboard/js/plugin/jsvectormap/world.js"></script>
+    <!-- Sweet Alert -->
+    <script src="~/dashboard/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <!-- Kaiadmin JS -->
+    <script src="~/dashboard/js/kaiadmin.min.js"></script>
     @*enable tooltip*@
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

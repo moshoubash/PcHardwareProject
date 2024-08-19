@@ -15,6 +15,7 @@
             <th>NAME</th>
             <th>DATE</th>
             <th>TOTAL AMOUNT</th>
+            <th>DISCOUNT</th>
             <th>STATUS</th>
             <th>USER EMAIL</th>
             <th>PHONE NUMBER</th>
@@ -28,11 +29,13 @@
             {
                 var userOrder = dbContext.Users.Where(u => u.Id == o.UserId).FirstOrDefault();
                 var addressOrder = dbContext.Addresses.Where(a => a.Id == o.AddressId).FirstOrDefault();
+                var discount = dbContext.Discounts.FirstOrDefault(d => d.Id == o.DiscountId);
                 <tr>
                     <td>@o.Id</td>
                     <td>@userOrder.FirstName @userOrder.LastName</td>
                     <td>@o.OrderDate.ToString("MM/dd/yyyy")</td>
                     <td>$@o.TotalAmount</td>
+                    <td>@discount.Name</td>
                     <td><span class="badge bg-success">@o.Status</span></td>
                     <td>@userOrder.Email</td>
                     <td>@userOrder.PhoneNumber</td>

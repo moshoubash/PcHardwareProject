@@ -4,7 +4,19 @@
     ViewData["Title"] = "Checkout page";
     Layout = "/Pages/Shared/_Layout.cshtml";
 
+    var products = dbContext.Products.ToList();
+    var manufacturers = dbContext.Manufactureres.ToList();
+
     decimal total = 0;
+
+    if (TempData["UpdatedTotal"] != null)
+    {
+        total = decimal.Parse(TempData["UpdatedTotal"].ToString());
+    }
+    else
+    {
+        total = ViewBag.TotalAmount;    
+    }
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -17,26 +29,33 @@
         </h4>
         <ul class="list-group mb-3">
             @{
-                foreach (var item in Model)
+                @foreach (var item in Model)
                 {
-                    var p = @dbContext.Products.Where(p => p.Id == item.ProductId).FirstOrDefault();
+                    var p = products.FirstOrDefault(p => p.Id == item.ProductId);
+                    var manufacturer = manufacturers.FirstOrDefault(m => m.Id == p.ManufacturerId);
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0">@p.Name</h6>
-                            <small class="text-muted">@dbContext.Manufactureres.Where(m=>m.Id==p.ManufacturerId).FirstOrDefault().Name</small>
+                            <small class="text-muted">@manufacturer.Name</small>
                         </div>
                         <span class="text-muted">$@p.Price <span class="badge bg-dark">@item.Quantity</span></span>
                     </li>
-                    total += p.Price * item.Quantity;
                 }
             }
             <li class="list-group-item d-flex justify-content-between lh-sm">
                 <div>
                     <h6 class="my-0"><b>Total</b></h6>
                 </div>
-                <span class="text-muted">$@total</span>
+                <span class="text-muted">$@ViewBag.TotalAmount </span>
             </li>
         </ul>
+        <form class="card p-2" action="/Payment/ApplyDiscount" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" name="discount" placeholder="Promo code">
+                <input type="hidden" name="total" value="@total">
+                <button type="submit" class="btn btn-primary">Redeem</button>
+            </div>
+        </form>
     </div>
     <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Billing address</h4>

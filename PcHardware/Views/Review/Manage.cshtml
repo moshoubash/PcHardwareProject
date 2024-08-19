@@ -1,0 +1,45 @@
+﻿@inject PcHardware.Services.MyDbContext dbContext;
+@model List<PcHardware.Models.Review>
+@{
+    ViewData["Title"] = "Manage Reviews";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Comment</th>
+            <th>Rating</th>
+            <th>User Email</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var r in Model)
+            {
+                var product = dbContext.Products.FirstOrDefault(p => p.Id == r.ProductId);
+                var user = dbContext.Users.FirstOrDefault(u => u.Id == r.UserId);
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@product.Name</td>
+                    <td>@r.Comment</td>
+                    <td>@r.Rating</td>
+                    <td>@user.Email</td>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>@r.Date</td>
+                    <td>
+                        <a href="/Product/Details/@r.ProductId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="/Review/Delete/@r.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>

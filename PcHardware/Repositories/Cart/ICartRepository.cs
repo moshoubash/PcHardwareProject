@@ -8,5 +8,6 @@ namespace PcHardware.Repositories.Cart
         public void RemoveCartItem(int ProductId, int CartId);
         public Models.Cart GetCartByUserId(string UserId);
         public bool IsInCart(CartItem cartItem);
+        public List<CartItem> GetCartItems(int CartId);
     }
 }

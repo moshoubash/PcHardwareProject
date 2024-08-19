@@ -3,96 +3,88 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject PcHardware.Repositories.Wishlist.IWishlistRepository wishlistRepository;
+@inject PcHardware.Repositories.Cart.ICartRepository cartRepository;
+
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    if (User.IsInRole("admin"))
+    @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user"></i> Admin
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/Admin/Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li>
-                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </li>
-    }
-    else if (User.IsInRole("seller"))
-    {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user"></i> Seller
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                 <li><a class="dropdown-item" href="/Seller/Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li>
-                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </li>
-    }
-    else if (User.IsInRole("client"))
-    {
-        <li class="nav-item">
-            <a class="nav-link d-inline-block" href="/Cart/Items">
-                <i class="fa fa-shopping-cart"></i> Cart (0)
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-inline-block" href="/Wishlist/Items">
-                <i class="fa fa-heart"></i> Wishlist (0)
-            </a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-inline-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user"></i> Client
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/Cart/Items"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
-                <li><a class="dropdown-item" href="/Wishlist/Items"><i class="fa fa-heart"></i> My Wishlist</a></li>
-                <li><a class="dropdown-item" href="/User/Orders"><i class="fa fa-list"></i> My Orders</a></li>
-                <li><a class="dropdown-item" href="/Address/AddressBook"><i class="fa-solid fa-address-book"></i> Address Book</a></li>
-                <li><a class="dropdown-item" href="/User/Settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
-                <li>
-                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </li>
+        if (User.IsInRole("admin"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-user"></i> Admin
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/Admin/Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+                    <li>
+                        <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
         }
+
+        else if (User.IsInRole("seller"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-user"></i> Seller
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/Seller/Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+                    <li>
+                        <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        }
+
+        else if (User.IsInRole("client"))
+        {
+            var targetCart = cartRepository.GetCartByUserId(UserManager.GetUserId(User));
+            var targetCartItems = cartRepository.GetCartItems(targetCart.Id);
+
+            <li class="nav-item">
+                <a class="nav-link d-inline-block" href="/Cart/Items">
+                    <i class="fa fa-shopping-cart"></i> Cart (@targetCartItems.Count)
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-inline-block" href="/Wishlist/Items">
+                    <i class="fa fa-heart"></i> Wishlist (@wishlistRepository.GetWishlistItems(UserManager.GetUserId(User)).Count)
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-inline-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-user"></i> Client
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/Cart/Items"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
+                    <li><a class="dropdown-item" href="/Wishlist/Items"><i class="fa fa-heart"></i> My Wishlist</a></li>
+                    <li><a class="dropdown-item" href="/User/Orders"><i class="fa fa-list"></i> My Orders</a></li>
+                    <li><a class="dropdown-item" href="/Address/AddressBook"><i class="fa-solid fa-address-book"></i> Address Book</a></li>
+                    <li><a class="dropdown-item" href="/User/Settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                    <li>
+                        <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        }
+    }
     else
     {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user"></i> Warehouse Manager
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/WarehouseManager/Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li>
-                    <form id="logoutForm" class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-                    </form>
-                </li>
-            </ul>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
 </ul>

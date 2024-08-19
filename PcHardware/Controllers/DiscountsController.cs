@@ -10,9 +10,11 @@ namespace PcHardware.Controllers
     public class DiscountsController : Controller
     {
         private readonly IDiscountRepository discountRepository;
-        public DiscountsController(IDiscountRepository discountRepository)
+        private readonly MyDbContext dbContext;
+        public DiscountsController(IDiscountRepository discountRepository, MyDbContext dbContext)
         {
             this.discountRepository = discountRepository;
+            this.dbContext = dbContext;
         }
 
         [HttpGet]
@@ -45,5 +47,7 @@ namespace PcHardware.Controllers
             discountRepository.EditDiscount(discount.Id, discount);
             return RedirectToAction("Manage");
         }
+
+        
     }
 }

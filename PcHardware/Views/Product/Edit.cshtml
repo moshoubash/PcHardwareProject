@@ -46,7 +46,7 @@
                 @{
                     foreach (var c in ViewBag.Categories)
                     {
-                        <option value="@c.Value">@c.Text</option>
+                        <option value="@c.Value" @(Model.CategoryId == int.Parse(c.Value) ? "selected" : "")>@c.Text</option>
                     }
                 }
             </select>
@@ -59,7 +59,7 @@
                 @{
                     foreach (var m in ViewBag.Manufactureres)
                     {
-                        <option value="@m.Value">@m.Text</option>
+                        <option value="@m.Value" @(Model.ManufacturerId == int.Parse(m.Value) ? "selected" : "")>@m.Text</option>
                     }
                 }
             </select>

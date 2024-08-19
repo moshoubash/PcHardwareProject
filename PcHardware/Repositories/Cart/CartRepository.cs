@@ -22,6 +22,12 @@ namespace PcHardware.Repositories.Cart
             return dbContext.Carts.Where(c=>c.UserId== UserId).FirstOrDefault();
         }
 
+        List<CartItem> ICartRepository.GetCartItems(int CartId)
+        {
+            var cartItems = dbContext.CartItems.Where(ci => ci.CartId == CartId).ToList();
+            return cartItems;
+        }
+
         bool ICartRepository.IsInCart(CartItem cartItem)
         {
             var targetCartItem = dbContext.CartItems.Where(ci => ci.CartId == cartItem.CartId && ci.ProductId == cartItem.ProductId).FirstOrDefault();

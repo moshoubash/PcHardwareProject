@@ -68,7 +68,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="/Seller/Dashboard" class="collapsed" aria-expanded="false">
+                <a href="/Admin/Dashboard" class="collapsed" aria-expanded="false">
                   <i class="fas fa-home"></i>
                   <p>Overview</p>
                 </a>
@@ -100,22 +100,16 @@
                     </li>
                   </ul>
                 </div>
-                @*Orders*@
-                <a href="/Order/Manage">
+                @*SEO*@
+                <a href="/Seo/Metatags">
                      <i class="fa-regular fa-calendar"></i>
-                    <p>Orders</p>
+                    <p>SEO</p>
                 </a>
 
-                @*Categories*@
-                <a href="/Category/Manage">
+                @*Site Setting*@
+                <a href="/Site/Settings">
                     <i class="fa-solid fa-list"></i>
-                    <p>Categories</p>
-                </a>
-
-                @*Manufacturer*@
-                <a href="/Manufacturer/Manage">
-                    <i class="fa-solid fa-industry"></i>
-                    <p>Manufacturers</p>
+                    <p>Site Settings</p>
                 </a>
                 
                 @*Discounts*@
@@ -124,46 +118,19 @@
                     <p>Discounts</p>
                 </a>
 
-                @*Customers*@
-                <a href="/Customers/Manage">
+                @*Users*@
+                <a href="/User/Manage">
                     <i class="fa-solid fa-user"></i>
-                    <p>Customers</p>
+                    <p>Users</p>
                 </a>
 
-                @* Warehouse *@
-                <a data-bs-toggle="collapse" href="#base2">
-                    <i class="fa-solid fa-warehouse"></i>
-                    <p>Warehouse</p>
-                    <span class="caret"></span>
-                </a>
-                <div class="collapse" id="base2">
-                    <ul class="nav nav-collapse">
-                        <li>
-                            <a href="/Warehouse/Manage">
-                                <span class="sub-item">Manage Warehouses</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/Warehouse/Create">
-                                <span class="sub-item">Create Warehouses</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                @*Shipping Management*@
-                <a href="/Shipping/CreateShipment">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <p>Shipping</p>
-                </a>
-                
                 @*Addresses*@
                 <a href="/Address/Manage">
                     <i class="fa-solid fa-location-dot"></i>
                     <p>Addresses</p>
                 </a>
 
-		        @*Reviews*@
+		        @*Products Reviews*@
                 <a href="/Review/Manage">
                     <i class="fa-solid fa-comment"></i>
                     <p>Reviews</p>
@@ -176,7 +143,7 @@
                 </a>
 
                 @*Settings*@
-                <a href="/Seller/Settings">
+                <a href="/Admin/Settings">
                     <i class="fa-solid fa-gear"></i>
                     <p>Settings</p>
                 </a>
