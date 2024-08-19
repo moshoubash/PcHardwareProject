@@ -1,0 +1,36 @@
+﻿@model PcHardware.ViewModels.ManufacturerViewModel
+
+@{
+    ViewData["Title"] = "Manufacturer products";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+@{
+    foreach (var p in Model.Products)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top p-3" src="/ProductsImages/@p.ImageUrl" alt="@p.Name" />
+                <div class="card-body">
+                    <a href="/Product/Details/@p.Id" class="text-decoration-none">
+                        <h5 class="card-title">@p.Name</h5>
+                    </a>
+                    <p class="card-text text-danger font-weight-bold">$@p.Price.00</p>
+                </div>
+                <div class="card-footer bg-transparent border-0">
+                    <div class="d-flex justify-content-between">
+                        <a href="/Cart/AddCartItem?productId=@p.Id" class="btn btn-primary">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
+                        <a href="/Product/Details/@p.Id" class="btn btn-dark">
+                            <i class="fa-solid fa-star"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
