@@ -49,15 +49,8 @@ namespace PcHardware
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
-            builder.Services.AddControllersWithViews();
-
-            builder.Services.AddScoped<FedExService>(sp => new FedExService(
-                builder.Configuration["FedEx:ApiKey"],
-                builder.Configuration["FedEx:ApiPassword"],
-                builder.Configuration["FedEx:AccountNumber"],
-                builder.Configuration["FedEx:MeterNumber"],
-                builder.Configuration["FedEx:BaseUrl"]
-            ));
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<FedExService>();
 
             var app = builder.Build();
 

@@ -12,37 +12,10 @@ namespace PcHardware.Controllers
             this._fedExService = _fedExService;
         }
 
-        [HttpGet]
-        public IActionResult CreateShipment()
+        public async Task<IActionResult> GetRates()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateShipment(ShippingRequest model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var response = await _fedExService.CreateShipment(model);
-                    if (response.Status == "Error")
-                    {
-                        ModelState.AddModelError("", response.Message);
-                        return View(model);
-                    }
-
-                    ViewBag.TrackingNumber = response.TrackingNumber;
-                    return View("ShipmentSuccess");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                }
-            }
-
-            return View(model);
-
+            var rates = await _fedExService.GetShippingRatesAsync();
+            return View("Rates", rates);
         }
 
         public ActionResult ShipmentSuccess() {
