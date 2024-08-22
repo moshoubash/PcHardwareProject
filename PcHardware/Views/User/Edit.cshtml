@@ -1,0 +1,44 @@
+﻿@model PcHardware.Models.ApplicationUser
+@{
+    ViewData["Title"] = $"Edit User {Model.Id}";
+    Layout = "/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    @*First Name*@
+    <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" value="@Model.FirstName" name="FirstName" />
+    </div>
+
+    @*Last Name*@
+    <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" value="@Model.LastName" name="LastName" />
+    </div>
+
+    @*Email*@
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" value="@Model.Email" name="Email" />
+    </div>
+
+    @*Phone Number*@
+    <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="text" class="form-control" value="@Model.PhoneNumber" name="PhoneNumber" />
+    </div>
+
+    @*Date of Birth*@
+    <div class="form-group">
+        <label class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" name="DateOfBirth" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Edit</button>
+        <a href="/User/Manage" class="btn btn-dark">Back to list</a>
+    </div>
+</form>

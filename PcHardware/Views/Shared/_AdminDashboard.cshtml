@@ -48,7 +48,7 @@
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
             <a href="/Index" class="logo">
-              <h2 class="navbar-brand text-light">Seller Dashboard</h2>
+              <h2 class="navbar-brand text-light">Admin Dashboard</h2>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -80,72 +80,49 @@
                 <h4 class="text-section">Pages</h4>
               </li>
               <li class="nav-item">
-                @* Products *@
+                @* SEO *@
                 <a data-bs-toggle="collapse" href="#base">
-                  <i class="fa-solid fa-box-open"></i>
-                  <p>Products</p>
+                <i class="fa-solid fa-hashtag"></i>
+                  <p>SEO</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="base">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="/Product/Manage">
-                        <span class="sub-item">Manage Products</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/Product/Create">
-                        <span class="sub-item">Create Product</span>
+                      <a href="/Metatags/Manage">
+                        <span class="sub-item">Manage Metatags</span>
                       </a>
                     </li>
                   </ul>
                 </div>
-                @*SEO*@
-                <a href="/Seo/Metatags">
-                     <i class="fa-regular fa-calendar"></i>
-                    <p>SEO</p>
+                @*Gallery*@
+                <a href="/Gallery/Collection">
+                    <i class="fa-solid fa-images"></i>
+                    <p>Gallery</p>
                 </a>
 
                 @*Site Setting*@
                 <a href="/Site/Settings">
-                    <i class="fa-solid fa-list"></i>
+                    <i class="fa-solid fa-gears"></i>
                     <p>Site Settings</p>
                 </a>
                 
-                @*Discounts*@
-                <a href="/Discounts/Manage">
-                    <i class="fa-solid fa-percent"></i>
-                    <p>Discounts</p>
-                </a>
-
                 @*Users*@
                 <a href="/User/Manage">
                     <i class="fa-solid fa-user"></i>
                     <p>Users</p>
                 </a>
 
-                @*Addresses*@
-                <a href="/Address/Manage">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p>Addresses</p>
+                @*Roles*@
+                <a href="/Roles/Manage">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <p>Roles</p>
                 </a>
 
-		        @*Products Reviews*@
-                <a href="/Review/Manage">
-                    <i class="fa-solid fa-comment"></i>
-                    <p>Reviews</p>
-                </a>
-
-                @*Notification*@
+                @*Notification Settings*@
                 <a href="/Seller/Settings">
                     <i class="fa-solid fa-bell"></i>
                     <p>Notifications</p>
-                </a>
-
-                @*Settings*@
-                <a href="/Admin/Settings">
-                    <i class="fa-solid fa-gear"></i>
-                    <p>Settings</p>
                 </a>
               </li>
             </ul>
@@ -273,7 +250,7 @@
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Seller</span>
+                      <span class="fw-bold">Admin</span>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">

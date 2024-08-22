@@ -1,0 +1,29 @@
+﻿@model PcHardware.Models.ApplicationUser
+@{
+    ViewData["Title"] = $"{Model.Id} Details";
+    Layout = "/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<dl>
+    <dt>First Name : </dt>
+    <dd>@Model.FirstName</dd>
+
+    <dt>Last Name : </dt>
+    <dd>@Model.LastName</dd>
+
+    <dt>Email : </dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Phone Number : </dt>
+    <dd>@Model.PhoneNumber</dd>
+
+    <dt>Created At : </dt>
+    <dd>@Model.CreatedAt</dd>
+
+    <dt>Date of birth : </dt>
+    <dd>@Model.DateOfBirth.ToString("MM/dd/yyyy")</dd>
+</dl>
+
+<a href="/User/Manage" class="btn btn-primary">Back to list</a>

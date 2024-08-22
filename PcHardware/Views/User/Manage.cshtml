@@ -1,0 +1,43 @@
+﻿@model List<PcHardware.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Users Management";
+    Layout = "/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Created At</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.Id</td>
+                    <td>@u.FirstName</td>
+                    <td>@u.LastName</td>
+                    <td>@u.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                    <td>@u.CreatedAt.ToString("dd/MM/yyyy")</td>
+                    <td>@u.Email</td>
+                    <td>@u.PhoneNumber</td>
+                    <td>
+                        <a href="/User/Edit/@u.Id" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="/User/Delete/@u.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        <a href="/User/Details/@u.Id" class="btn btn-warning"><i class="fa-solid fa-circle-info"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

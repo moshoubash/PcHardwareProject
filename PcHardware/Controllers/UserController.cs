@@ -5,6 +5,7 @@ using PcHardware.Repositories.Order;
 using PcHardware.Models;
 using Microsoft.EntityFrameworkCore;
 using PcHardware.Services;
+using PcHardware.Repositories.User;
 
 namespace PcHardware.Controllers
 {
@@ -14,12 +15,13 @@ namespace PcHardware.Controllers
         private readonly IOrderRepository orderRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly MyDbContext dbContext;
-
-        public UserController(MyDbContext dbContext, IOrderRepository orderRepository, UserManager<ApplicationUser> userManager)
+        private readonly IUserRepository userRepository;
+        public UserController(MyDbContext dbContext, IUserRepository userRepository, IOrderRepository orderRepository, UserManager<ApplicationUser> userManager)
         {
             this.orderRepository = orderRepository;
             this.userManager = userManager;
             this.dbContext = dbContext;
+            this.userRepository = userRepository;
         }
 
         public async Task<ActionResult> Orders()
@@ -63,6 +65,53 @@ namespace PcHardware.Controllers
             dbContext.SaveChanges();
 
             return Redirect($"/Product/Details/{ProductId}");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Manage() {
+            return View(userRepository.GetUsers());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Details(string Id) {
+            return View(userRepository.GetUserById(Id));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Create() {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Create(ApplicationUser user)
+        {
+            user.CreatedAt = DateTime.Now;
+            user.UserName = user.Email;
+            await userRepository.CreateUser(user);
+            return RedirectToAction("Manage");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(string Id) {
+            return View(userRepository.GetUserById(Id));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(ApplicationUser user)
+        {
+            userRepository.EditUser(user);
+            return RedirectToAction("Manage");
+        }
+
+        public ActionResult Delete(string Id) {
+            userRepository.DeleteUser(Id);
+            return RedirectToAction("Manage");
         }
     }
 }

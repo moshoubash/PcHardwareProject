@@ -1,0 +1,91 @@
+﻿@model List<PcHardware.Models.MetaTag>
+@{
+    ViewData["Title"] = "Manage Metatags";
+    Layout = "/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="my-2 btn btn-primary">+ Create Metatag</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Content</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.Id</td>
+                    @{
+                        if (m.Name == "title") { 
+                            <td><span class="badge bg-primary">@m.Name</span></td>
+                        }
+                        if (m.Name == "description")
+                        {
+                            <td><span class="badge bg-dark">@m.Name</span></td>
+                        }
+                        if (m.Name == "keywords")
+                        {
+                            <td><span class="badge bg-warning">@m.Name</span></td>
+                        }
+                        if (m.Name == "language")
+                        {
+                            <td><span class="badge bg-danger">@m.Name</span></td>
+                        }
+                        if (m.Name == "robots")
+                        {
+                            <td><span class="badge bg-success">@m.Name</span></td>
+                        }
+                    }
+                    <td>@m.Content</td>
+                    <td>
+                        <a href="/Metatags/Delete/@m.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        <a href="/Metatags/Edit/@m.Id" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/Metatags/Create">
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <select name="Name">
+                            <option value="title">title</option>
+                            <option value="description">description</option>
+                            <option value="keywords">keywords</option>
+                            <option value="language">language</option>
+                            <option value="robots">robots</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Content</label>
+                        <input class="form-control" type="text" name="Content" />
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

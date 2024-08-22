@@ -16,6 +16,8 @@ using PcHardware.Repositories.Address;
 using PcHardware.Repositories.Customers;
 using PcHardware.Repositories.Warehouse;
 using PcHardware.Repositories.Review;
+using PcHardware.Repositories.User;
+using PcHardware.Repositories.Metatag;
 
 namespace PcHardware
 {
@@ -46,6 +48,8 @@ namespace PcHardware
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IMetatagRepository, MetatagRepository>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 

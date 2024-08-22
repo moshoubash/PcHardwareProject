@@ -36,7 +36,29 @@
                     <td>@o.OrderDate.ToString("MM/dd/yyyy")</td>
                     <td>$@o.TotalAmount</td>
                     <td>@discount.Name</td>
-                    <td><a id="alert_demo_5" class="badge bg-success">@o.Status</a></td>
+                    <td>
+                        @{
+                            if (@o.Status == "Pending")
+                            {
+                                <span class="badge bg-primary">Pending</span>
+                            }
+
+                            if (@o.Status == "Processing")
+                            {
+                                <span class="badge bg-dark">Processing</span>
+                            }
+
+                            if (@o.Status == "Shipped")
+                            {
+                                <span class="badge bg-danger">Shipped</span>
+                            }
+
+                            if (@o.Status == "Delivered")
+                            {
+                                <span class="badge bg-success">Delivered</span>
+                            }
+                        }
+                    </td>
                     <td>@userOrder.Email</td>
                     <td>@userOrder.PhoneNumber</td>
                     <td>@dbContext.Countries.Where(c => c.Id == int.Parse(addressOrder.Country)).FirstOrDefault().Name</td>
