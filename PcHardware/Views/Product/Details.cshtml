@@ -21,6 +21,9 @@
             <a href="/Category/Products/@Model.CategoryId" class="badge bg-dark">
                 @(dbContext.Categories.FirstOrDefault(c => c.Id == Model.CategoryId)?.Name ?? "Unknown Category")
             </a>
+            <a href="/Category/Products/@Model.CategoryId" class="badge bg-primary">
+                @(dbContext.Manufactureres.FirstOrDefault(m => m.Id == Model.ManufacturerId)?.Name ?? "Unknown Manufacturer")
+            </a>
             <p>@Html.Raw(@Model.Description)</p>
 
             <h3 class="text-success">@Model.Price.ToString("C")</h3>

@@ -36,13 +36,16 @@
                     <td>@o.OrderDate.ToString("MM/dd/yyyy")</td>
                     <td>$@o.TotalAmount</td>
                     <td>@discount.Name</td>
-                    <td><span class="badge bg-success">@o.Status</span></td>
+                    <td><a id="alert_demo_5" class="badge bg-success">@o.Status</a></td>
                     <td>@userOrder.Email</td>
                     <td>@userOrder.PhoneNumber</td>
                     <td>@dbContext.Countries.Where(c => c.Id == int.Parse(addressOrder.Country)).FirstOrDefault().Name</td>
                     <td>
                         <a href="/Order/Details/@o.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
-                        <a href="#" class="btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editStatusModal"
+                                data-order-id="@o.Id" data-order-status="@o.Status">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
                         <a href="/Order/Delete/@o.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>    
@@ -50,3 +53,53 @@
         }
     </tbody>
 </table>
+<!--Edit Modal-->
+<div class="modal fade" id="editStatusModal" tabindex="-1" aria-labelledby="editStatusLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStatusLabel">Edit Order Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="editStatusForm" method="post" action="/Order/EditStatus">
+                    <input type="hidden" id="orderIdInput" name="OrderId" />
+                    <div class="mb-3">
+                        <label for="statusInput" class="form-label">Status</label>
+                        <select id="statusInput" name="Status" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="editStatusForm" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>    
+    document.addEventListener('DOMContentLoaded', function () {
+        var editStatusModal = document.getElementById('editStatusModal');
+        editStatusModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var orderId = button.getAttribute('data-order-id');
+            var orderStatus = button.getAttribute('data-order-status');
+
+            var orderIdInput = editStatusModal.querySelector('#orderIdInput');
+            var statusInput = editStatusModal.querySelector('#statusInput');
+
+            orderIdInput.value = orderId;
+            statusInput.value = orderStatus;
+        });
+    });
+</script>

@@ -15,20 +15,18 @@ namespace PcHardware.Controllers
     [Authorize(Roles = "seller")]
     public class SellerController : Controller
     {
-        private readonly FedExService _fedExService;
         private readonly IProductRepository ProductRepository;
         private readonly ICustomerRepository customerRepository;
         private readonly IOrderRepository orderRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly MyDbContext dbContext;
-        public SellerController(UserManager<ApplicationUser> userManager, FedExService _fedExService, IOrderRepository orderRepository, ICustomerRepository customerRepository, MyDbContext dbContext, IProductRepository ProductRepository)
+        public SellerController(UserManager<ApplicationUser> userManager, IOrderRepository orderRepository, ICustomerRepository customerRepository, MyDbContext dbContext, IProductRepository ProductRepository)
         {
             this.userManager = userManager;
             this.dbContext = dbContext;
             this.ProductRepository = ProductRepository;
             this.customerRepository = customerRepository;
             this.orderRepository = orderRepository;
-            this._fedExService = _fedExService;
         }
         public ActionResult Dashboard()
         {

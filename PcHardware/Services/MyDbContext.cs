@@ -88,5 +88,6 @@ namespace PcHardware.Services
         public DbSet<Country> Countries { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<MetaTag> MetaTags { get; set; }
     }
 }

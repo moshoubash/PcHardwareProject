@@ -35,6 +35,12 @@
     @*Product Image*@
     <div class="form-group">
         <label class="form-label">Product Image</label>
+
+        <div class="mb-3">
+            <img src="/ProductsImages/@Model.ImageUrl" alt="Product Image" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+        </div>
+
+        @* File input for uploading a new image *@
         <input name="ImageUrl" class="form-control" type="file" />
     </div>
 
@@ -67,5 +73,6 @@
     </div>
     <div class="form-group">
         <button class="btn btn-primary" type="submit">Edit</button>
+        <a class="btn btn-dark" href="/Product/Manage">Back to list</a>
     </div>
 </form>

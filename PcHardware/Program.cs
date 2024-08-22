@@ -49,9 +49,6 @@ namespace PcHardware
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<FedExService>();
-
             var app = builder.Build();
 
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
