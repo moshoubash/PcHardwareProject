@@ -6,6 +6,7 @@ using PcHardware.Models;
 using Microsoft.EntityFrameworkCore;
 using PcHardware.Services;
 using PcHardware.Repositories.User;
+using Stripe.Climate;
 
 namespace PcHardware.Controllers
 {
@@ -62,6 +63,10 @@ namespace PcHardware.Controllers
             };
 
             dbContext.Reviews.Add(review);
+            dbContext.SaveChanges();
+
+            var notify = new Notification { Type = "New Review", Description = $"User {user.Id} create review on product {ProductId} : {(review.Comment.Length < 100? review.Comment : review.Comment.Substring(0, 100))}", Time = DateTime.Now, IsRead = false };
+            dbContext.Notifications.Add(notify);
             dbContext.SaveChanges();
 
             return Redirect($"/Product/Details/{ProductId}");

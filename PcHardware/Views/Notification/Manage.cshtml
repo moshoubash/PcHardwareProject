@@ -1,0 +1,33 @@
+﻿@model List<PcHardware.Models.Notification>
+@{
+    ViewData["Title"] = "Notification center";
+    Layout = "/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Time</th>
+            <th>Mark as read</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var n in Model)
+            {
+                <tr style="@(!n.IsRead ? "background-color: gray !important;" : "")">
+                    <td>@n.Id</td>
+                    <td>@n.Type</td>
+                    <td>@n.Description</td>
+                    <td>@n.Time</td>
+                    <td><a href="/Notification/ToggleIsRead/@n.Id" class="btn btn-outline-dark">Mark as read</a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

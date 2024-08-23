@@ -11,5 +11,6 @@ namespace PcHardware.Models
         public string? Type { get; set; }
         public string? Description { get; set; }
         public DateTime Time { get; set; }
+        public bool IsRead { get; set; }
     }
 }
