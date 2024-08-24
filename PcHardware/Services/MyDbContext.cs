@@ -89,5 +89,6 @@ namespace PcHardware.Services
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<MetaTag> MetaTags { get; set; }
+        public DbSet<Site> Site { get; set; }
     }
 }

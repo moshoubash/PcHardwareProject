@@ -1,0 +1,11 @@
+﻿@inject Services.MyDbContext dbContext;
+@{
+    var metatags = dbContext.MetaTags.ToList();
+}
+
+@{
+    foreach (var m in metatags)
+    {
+        <meta name="@m.Name" content="@m.Content" />    
+    }
+}
