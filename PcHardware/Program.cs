@@ -18,6 +18,7 @@ using PcHardware.Repositories.Warehouse;
 using PcHardware.Repositories.Review;
 using PcHardware.Repositories.User;
 using PcHardware.Repositories.Metatag;
+using QuestPDF.Infrastructure;
 
 namespace PcHardware
 {
@@ -51,7 +52,10 @@ namespace PcHardware
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IMetatagRepository, MetatagRepository>();
 
+            builder.Services.AddScoped<OrderReportService>();
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+            QuestPDF.Settings.License = LicenseType.Community;
 
             var app = builder.Build();
 

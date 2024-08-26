@@ -1,4 +1,6 @@
-﻿@model List<PcHardware.Models.ApplicationUser>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<PcHardware.Models.ApplicationUser> userManager;
+@model List<PcHardware.Models.ApplicationUser>
 @{
     ViewData["Title"] = "Users Management";
     Layout = "/Views/Shared/_AdminDashboard.cshtml";
@@ -14,6 +16,7 @@
             <th>Last Name</th>
             <th>Date of Birth</th>
             <th>Created At</th>
+            <th>Role</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Action</th>
@@ -29,6 +32,22 @@
                     <td>@u.LastName</td>
                     <td>@u.DateOfBirth.ToString("dd/MM/yyyy")</td>
                     <td>@u.CreatedAt.ToString("dd/MM/yyyy")</td>
+                    @{
+                        if (await userManager.IsInRoleAsync(u, "client"))
+                        {
+                            <td><span class="badge bg-dark">Client</span></td>
+                        }
+
+                        if (await userManager.IsInRoleAsync(u, "admin"))
+                        {
+                            <td><span class="badge bg-warning">Admin</span></td>
+                        }
+
+                        if (await userManager.IsInRoleAsync(u, "seller"))
+                        {
+                            <td><span class="badge bg-secondary">Seller</span></td>
+                        }
+                    }
                     <td>@u.Email</td>
                     <td>@u.PhoneNumber</td>
                     <td>
