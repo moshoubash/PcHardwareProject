@@ -19,6 +19,7 @@ using PcHardware.Repositories.Review;
 using PcHardware.Repositories.User;
 using PcHardware.Repositories.Metatag;
 using QuestPDF.Infrastructure;
+using PcHardware.Repositories.Activity;
 
 namespace PcHardware
 {
@@ -51,6 +52,7 @@ namespace PcHardware
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IMetatagRepository, MetatagRepository>();
+            builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 
             builder.Services.AddScoped<OrderReportService>();
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));

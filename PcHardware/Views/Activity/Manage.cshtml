@@ -1,0 +1,35 @@
+﻿@model List<PcHardware.Models.Activity>
+@{
+    ViewData["Title"] = "System Activity log";
+    Layout = "/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>User Id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.Id</td>
+                    <td>@a.Type</td>
+                    <td>@a.Time</td>
+                    <td>@a.UserId</td>
+                    <td>
+                        <a href="/Activity/Delete/@a.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>    
+            }
+        }
+    </tbody>
+</table>
