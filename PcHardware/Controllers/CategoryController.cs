@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using PcHardware.Models;
+using PcHardware.Services;
 using PcHardware.Repositories.Category;
 using PcHardware.ViewModels;
 
@@ -9,10 +12,14 @@ namespace PcHardware.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
-        
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly MyDbContext dbContext;
+
+        public CategoryController(ICategoryRepository categoryRepository, UserManager<ApplicationUser> userManager, MyDbContext dbContext)
         {
             this.categoryRepository = categoryRepository;
+            this.userManager = userManager;
+            this.dbContext = dbContext;
         }
 
         [Route("category/products/{Id}")]
@@ -37,17 +44,39 @@ namespace PcHardware.Controllers
 
         [Authorize(Roles = "admin, seller")]
         [HttpPost]
-        public ActionResult Create(Category category)
+        public async Task<ActionResult> Create(Category category)
         {
+            var user = await userManager.GetUserAsync(User);
             categoryRepository.CreateCategory(category);
+
+            var activity = new Activity { 
+                Type = $"New Category {category.Name}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
             return RedirectToAction("Manage");
 
         }
 
         [Authorize(Roles = "admin, seller")]
-        public ActionResult Delete(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
+            var user = await userManager.GetUserAsync(User);
             categoryRepository.DeleteCategory(Id);
+
+            var activity = new Activity
+            {
+                Type = $"Delete Category {Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 

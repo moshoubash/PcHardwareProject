@@ -13,5 +13,6 @@ namespace PcHardware.Models
         public List<Review>? Reviews { get; set; }
         public List<Wishlist>? Wishlists { get; set; }
         public List<Order>? Orders { get; set; }
+        public List<Activity>? Activities { get; set; }
     }
 }

@@ -93,6 +93,14 @@ namespace PcHardware.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            var activity = new Activity { 
+                Type = $"Password changes for user {user.Id}",
+                UserId = user.Id,
+                Time = DateTime.Now
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
             return Redirect("/Seller/Settings");
         }
     }

@@ -49,6 +49,15 @@ namespace PcHardware.Controllers
             var user = await userManager.GetUserAsync(User);
             address.UserId = user.Id;
             _addressRepository.AddAddress(address);
+
+            var activity = new Activity { 
+                Type = "Add new Address",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("AddressBook");
         }
 
@@ -65,6 +74,16 @@ namespace PcHardware.Controllers
         public ActionResult Edit(Address address)
         {
             _addressRepository.EditAddress(address);
+
+            var activity = new Activity
+            {
+                Type = $"Edit Address {address.Id}",
+                Time = DateTime.Now,
+                UserId = address.UserId
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
@@ -72,6 +91,16 @@ namespace PcHardware.Controllers
         public ActionResult Delete(int Id)
         {
             _addressRepository.RemoveAddress(Id);
+
+            var activity = new Activity
+            {
+                Type = $"Remove Address {Id}",
+                Time = DateTime.Now,
+                UserId = dbContext.Addresses.FirstOrDefault(a => a.Id == Id).UserId
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return Redirect("/Index");
         }
     }

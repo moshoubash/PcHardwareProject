@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PcHardware.Models;
@@ -12,12 +13,14 @@ namespace PcHardware.Controllers
         private readonly MyDbContext dbContext;
         private readonly IProductRepository productRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
-        
-        public ProductController(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment, MyDbContext dbContext)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public ProductController(IProductRepository productRepository, IWebHostEnvironment webHostEnvironment, MyDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.productRepository = productRepository;
             this.webHostEnvironment = webHostEnvironment;
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
         
         // Manage products
@@ -45,8 +48,10 @@ namespace PcHardware.Controllers
         
         [Authorize(Roles = "seller")]
         [HttpPost]
-        public ActionResult Create(Product product, IFormFile ImageUrl)
+        public async Task<ActionResult> Create(Product product, IFormFile ImageUrl)
         {
+            var user = await userManager.GetUserAsync(User);
+
             if (ImageUrl != null) {
                 var wwwroot = webHostEnvironment.WebRootPath + "/ProductsImages";
                 var guid = Guid.NewGuid();
@@ -61,6 +66,15 @@ namespace PcHardware.Controllers
             }
 
             productRepository.CreateProduct(product);
+
+            var activity = new Activity {
+                Type = $"New Product {product.Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
         
@@ -76,8 +90,10 @@ namespace PcHardware.Controllers
         
         [Authorize(Roles = "seller")]
         [HttpPost]
-        public ActionResult Edit(Product product, IFormFile ImageUrl)
+        public async Task<ActionResult> Edit(Product product, IFormFile ImageUrl)
         {
+            var user = await userManager.GetUserAsync(User);
+
             if (ImageUrl != null)
             {
                 var wwwroot = webHostEnvironment.WebRootPath + "/ProductsImages";
@@ -93,14 +109,35 @@ namespace PcHardware.Controllers
             }
 
             productRepository.EditProduct(product);
+
+            var activity = new Activity
+            {
+                Type = $"Product {product.Id} edited",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
         
         // Delete products
         [Authorize(Roles = "seller")]
-        public ActionResult Delete(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
+            var user = await userManager.GetUserAsync(User);
             productRepository.DeleteProduct(Id);
+
+            var activity = new Activity
+            {
+                Type = $"Product {Id} deleted",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 

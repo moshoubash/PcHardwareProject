@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PcHardware.Models;
 using PcHardware.Repositories.Discount;
 using PcHardware.Services;
+using Stripe;
 
 namespace PcHardware.Controllers
 {
@@ -11,10 +13,13 @@ namespace PcHardware.Controllers
     {
         private readonly IDiscountRepository discountRepository;
         private readonly MyDbContext dbContext;
-        public DiscountsController(IDiscountRepository discountRepository, MyDbContext dbContext)
+        private readonly UserManager<ApplicationUser> userManager;
+        public DiscountsController(IDiscountRepository discountRepository, MyDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.discountRepository = discountRepository;
             this.dbContext = dbContext;
+            this.userManager = userManager;
+
         }
 
         [HttpGet]
@@ -24,14 +29,39 @@ namespace PcHardware.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Discount discount) {
+        public async Task<ActionResult> Create(Models.Discount discount) {
+
+            var user = await userManager.GetUserAsync(User);
             discountRepository.CreateDiscount(discount);
+
+            var activity = new Activity
+            {
+                Type = $"New Discount added {discount.Name}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
-        public ActionResult Delete(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
+            var user = await userManager.GetUserAsync(User);
             discountRepository.DeleteDiscount(Id);
+
+            var activity = new Activity
+            {
+                Type = $"Discount {Id} deleted",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
@@ -42,9 +72,21 @@ namespace PcHardware.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Discount discount)
+        public async Task<ActionResult> Edit(Models.Discount discount)
         {
+            var user = await userManager.GetUserAsync(User);
             discountRepository.EditDiscount(discount.Id, discount);
+
+            var activity = new Activity
+            {
+                Type = $"Discount {discount.Id} was edited",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 

@@ -61,12 +61,32 @@ namespace PcHardware.Controllers
             warehouse.AddressId = add.Id;
 
             warehouseRepository.CreateWarehouse(warehouse);
+
+            var activity = new Activity { 
+                Type = $"New Warehouse details added {warehouse.Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
-        public ActionResult Delete(int Id)
+        public async Task<ActionResult> Delete(int Id)
         {
+            var user = await userManager.GetUserAsync(User);
             warehouseRepository.DeleteWarehouse(Id);
+
+            var activity = new Activity
+            {
+                Type = $"Warehouse details was deleted : {Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
@@ -98,6 +118,16 @@ namespace PcHardware.Controllers
             warehouse.AddressId = add.Id;
 
             warehouseRepository.EditWarehouse(warehouse);
+
+            var activity = new Activity
+            {
+                Type = $"Warehouse details was edited {warehouse.Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            };
+            dbContext.Activities.Add(activity);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
     }

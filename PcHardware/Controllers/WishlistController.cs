@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using PcHardware.Models;
 using PcHardware.Repositories.Wishlist;
+using PcHardware.Services;
 
 namespace PcHardware.Controllers
 {

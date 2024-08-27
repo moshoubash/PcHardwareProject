@@ -47,6 +47,13 @@ namespace PcHardware.Controllers
             user.DateOfBirth = applicationUser.DateOfBirth;
             user.PhoneNumber = applicationUser.PhoneNumber;
             dbContext.SaveChanges();
+
+            dbContext.Activities.Add(new Activity { 
+                Type = $"User {user.Id} settings updated",
+                Time = DateTime.Now,
+                UserId = user.Id
+            });
+            dbContext.SaveChanges();
             return Redirect("/User/Settings");
         }
 
@@ -67,6 +74,14 @@ namespace PcHardware.Controllers
 
             var notify = new Notification { Type = "New Review", Description = $"User {user.Id} create review on product {ProductId} : {(review.Comment.Length < 100? review.Comment : review.Comment.Substring(0, 100))}", Time = DateTime.Now, IsRead = false };
             dbContext.Notifications.Add(notify);
+            dbContext.SaveChanges();
+
+            dbContext.Activities.Add(new Activity
+            {
+                Type = $"User {user.Id} make new review on product {ProductId}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            });
             dbContext.SaveChanges();
 
             return Redirect($"/Product/Details/{ProductId}");
@@ -97,6 +112,15 @@ namespace PcHardware.Controllers
             user.CreatedAt = DateTime.Now;
             user.UserName = user.Email;
             await userRepository.CreateUser(user);
+
+            dbContext.Activities.Add(new Activity
+            {
+                Type = $"New User added {user.Id}",
+                Time = DateTime.Now,
+                UserId = user.Id
+            });
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
@@ -111,11 +135,30 @@ namespace PcHardware.Controllers
         public ActionResult Edit(ApplicationUser user)
         {
             userRepository.EditUser(user);
+
+            dbContext.Activities.Add(new Activity
+            {
+                Type = $"User {user.Id} Information updated",
+                Time = DateTime.Now,
+                UserId = user.Id
+            });
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
 
-        public ActionResult Delete(string Id) {
+        public async Task<ActionResult> Delete(string Id) {
+            var user = await userManager.GetUserAsync(User);
             userRepository.DeleteUser(Id);
+
+            dbContext.Activities.Add(new Activity
+            {
+                Type = $"User {Id} deleted",
+                Time = DateTime.Now,
+                UserId = user.Id
+            });
+            dbContext.SaveChanges();
+
             return RedirectToAction("Manage");
         }
     }

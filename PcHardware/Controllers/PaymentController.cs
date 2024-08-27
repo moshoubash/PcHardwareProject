@@ -148,6 +148,13 @@ namespace PcHardware.Controllers
             dbContext.Notifications.Add(notify);
             dbContext.SaveChanges();
 
+            dbContext.Activities.Add(new Activity { 
+                Time = DateTime.Now,
+                Type = $"New Order Added {order.Id}",
+                UserId = user.Id
+            });
+            dbContext.SaveChanges();
+
             return View("Success");
         }
 

@@ -70,6 +70,8 @@ namespace PcHardware.Services
             // Product Specification
             builder.Entity<ProductSpecification>().HasOne(ps => ps.Product).WithMany(p => p.ProductSpecifications).HasForeignKey(ps => ps.ProductId);
 
+            // Activity
+            builder.Entity<Activity>().HasOne(a => a.User).WithMany(u => u.Activities).HasForeignKey(a => a.UserId);
         }
 
         public DbSet<Product> Products { get; set; }
@@ -90,5 +92,6 @@ namespace PcHardware.Services
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<MetaTag> MetaTags { get; set; }
         public DbSet<Site> Site { get; set; }
+        public DbSet<Activity> Activities { get; set; }
     }
 }
