@@ -4,8 +4,16 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
 <div class="container">
+    <div class="index-top">
+        <div class="left-side">
+            <h2>Pc Hardware Store</h2>
+            <p>Pc parts from the most commonly brands in your hand with some steps</p>
+        </div>
+        <div class="right-side">
+            <img src="https://www.seekpng.com/png/full/773-7731342_custom-pc-png.png" width="90%" alt="pc hardware" />
+        </div>
+    </div>
     <div class="row">
         @{
             foreach (var p in dbContext.Products)

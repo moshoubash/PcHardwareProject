@@ -82,3 +82,35 @@ dd {
     display:inline-block;
 }
 
+.index-top {
+    height: 600px;
+    max-width: 1500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.index-top > .left-side {
+    color: black;
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.index-top > .left-side > h2{
+    font-size:3.2rem;
+    font-weight: 800;
+}
+
+.index-top > .left-side > p {
+    font-size: 1.7rem;
+}
+
+.index-top > .right-side {
+    height: 100%;
+    width: 50%;
+    display: grid;
+    place-items:center;
+}
